@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // defaultConcurrencyLimit caps simultaneous in-flight requests per model when

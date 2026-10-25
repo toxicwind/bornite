@@ -1,15 +1,15 @@
-// Command herd-validate loads herd config through the real loader and reports
+// Command bornite-validate loads bornite config through the real loader and reports
 // whether it parses and validates.
 //
 // It exists because the loader used to accept keys it did not understand and
 // discard them without a word. A config could name a section that no code
 // reads, load cleanly forever, and serve nothing — which is exactly what
-// happened to the top-level `aliases:` block in the estate's herd.yaml. The
+// happened to the top-level `aliases:` block in the estate's bornite.yaml. The
 // loader now rejects unknown top-level keys; this command is how you find
 // out, without starting a server.
 //
-//	herd-validate --config config/herd.yaml
-//	herd-validate --config-dir /home/toxic/kimi-auto/herd.d
+//	bornite-validate --config config/bornite.yaml
+//	bornite-validate --config-dir /home/toxic/kimi-auto/bornite.d
 package main
 
 import (
@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mostlygeek/herd/internal/config"
+	"github.com/mostlygeek/bornite/internal/config"
 )
 
 // runValidate loads one config file, or every .yml/.yaml in a directory,
@@ -80,7 +80,7 @@ func main() {
 	flag.Parse()
 
 	if *configPath == "" && *configDir == "" {
-		fmt.Fprintln(os.Stderr, "usage: herd-validate --config <file> | --config-dir <dir>")
+		fmt.Fprintln(os.Stderr, "usage: bornite-validate --config <file> | --config-dir <dir>")
 		os.Exit(2)
 	}
 	if *configPath != "" && *configDir != "" {

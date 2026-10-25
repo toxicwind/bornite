@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/event"
-	"github.com/mostlygeek/herd/internal/perf"
-	"github.com/mostlygeek/herd/internal/store"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/mostlygeek/bornite/internal/perf"
+	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // apiModel is one entry in the /api/events modelStatus payload.

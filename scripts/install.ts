@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { $ } from "bun";
 
-console.log(">>> Running Herd Installation (Bun)...");
+console.log(">>> Running Bornite Installation (Bun)...");
 
 // Example of how a bun script handles install tasks
 async function main() {

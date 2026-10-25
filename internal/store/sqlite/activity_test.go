@@ -3,7 +3,7 @@ package sqlite
 import (
 	"testing"
 
-	"github.com/mostlygeek/herd/internal/store"
+	"github.com/mostlygeek/bornite/internal/store"
 )
 
 // Every sort key the store package accepts must map to a SQL column here, and

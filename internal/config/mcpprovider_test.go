@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/herd/internal/mcptools"
+	"github.com/mostlygeek/bornite/internal/mcptools"
 )
 
 const configProviderFixture = `

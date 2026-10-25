@@ -9,17 +9,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "herd.fullname" . }}
+  name: {{ include "bornite.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "herd.labels" . | nindent 4 }}
+    {{- include "bornite.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
     type: {{ .Values.strategy.type }}
   selector:
     matchLabels:
-      {{- include "herd.selectorLabels" . | nindent 6 }}
+      {{- include "bornite.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- /* Restart the head-end when the rendered config changes. The
@@ -43,7 +43,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "herd.selectorLabels" . | nindent 8 }}
+        {{- include "bornite.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -52,7 +52,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "herd.serviceAccountName" . }}
+      serviceAccountName: {{ include "bornite.serviceAccountName" . }}
       {{- with .Values.priorityClassName }}
       priorityClassName: {{ . }}
       {{- end }}
@@ -66,7 +66,7 @@ spec:
         # One-shot gc per head-end start: deletes backend workloads whose
         # models are no longer in the config.
         - name: kubeswap-gc
-          image: {{ include "herd.image" . }}
+          image: {{ include "bornite.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /usr/local/bin/kubeswap
@@ -74,10 +74,10 @@ spec:
             - --namespace
             - {{ .Release.Namespace }}
             - --config
-            - /etc/herd/config/config.yaml
+            - /etc/bornite/config/config.yaml
           volumeMounts:
             - name: config
-              mountPath: /etc/herd/config
+              mountPath: /etc/bornite/config
               readOnly: true
           {{- with .Values.gcInitContainer.securityContext }}
           securityContext:
@@ -89,17 +89,17 @@ spec:
         {{- end }}
       {{- end }}
       containers:
-        - name: herd
-          image: {{ include "herd.image" . }}
+        - name: bornite
+          image: {{ include "bornite.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          command: ["/usr/local/bin/herd"]
+          command: ["/usr/local/bin/bornite"]
           args:
             - -config
-            - /etc/herd/config/config.yaml
+            - /etc/bornite/config/config.yaml
             - -watch-config
           ports:
             - name: http
@@ -122,7 +122,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: config
-              mountPath: /etc/herd/config
+              mountPath: /etc/bornite/config
               readOnly: true
             {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
@@ -145,7 +145,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "herd.configMapName" . }}
+            name: {{ include "bornite.configMapName" . }}
         {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

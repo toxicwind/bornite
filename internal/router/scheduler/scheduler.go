@@ -15,10 +15,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // ErrModelNotFound is granted to callers whose model is not handled by this

@@ -28,7 +28,7 @@ func TestConfig_ExampleMatchesSchema(t *testing.T) {
 	}
 
 	resolved, err := schema.Resolve(&jsonschema.ResolveOptions{
-		BaseURI: "https://github.com/mostlygeek/herd/",
+		BaseURI: "https://github.com/mostlygeek/bornite/",
 	})
 	if err != nil {
 		t.Fatalf("resolving schema: %v", err)

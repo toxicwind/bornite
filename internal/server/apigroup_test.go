@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/cache"
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/hw"
-	"github.com/mostlygeek/herd/internal/store"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/cache"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/hw"
+	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 func TestServer_InflightMiddleware_AddsAndRemovesEntriesAroundRequestHandling(t *testing.T) {
@@ -324,7 +324,7 @@ func TestServer_APIHardware(t *testing.T) {
 		Capture: hw.HardwareCapture{
 			Scope:    hw.CaptureScopeInferenceHost,
 			Method:   hw.CaptureMethodDetected,
-			Detector: &hw.DetectorInfo{Name: "herd", Version: "246"},
+			Detector: &hw.DetectorInfo{Name: "bornite", Version: "246"},
 		},
 		Architecture:    hw.Architecture{Name: "x86_64"},
 		OperatingSystem: hw.OperatingSystem{Family: "linux"},

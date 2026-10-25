@@ -1,6 +1,6 @@
 package router
 
-import matrixdsl "github.com/mostlygeek/herd/internal/matrix"
+import matrixdsl "github.com/mostlygeek/bornite/internal/matrix"
 
 // matrixSolver contains pure swap-decision logic with no Process dependencies.
 // It is safe for concurrent reads after construction.

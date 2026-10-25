@@ -2,7 +2,7 @@
 Legacy 'ast_race' remains accepted. Safe to re-run."""
 import io, os
 
-base = "/home/toxic/estate/ranch/mesh/router/herd/internal/flock"
+base = "/home/toxic/estate/ranch/mesh/router/bornite/internal/flock"
 
 subs = {
     "router.go": [

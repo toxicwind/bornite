@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/mostlygeek/herd/internal/tailcat"
+	"github.com/mostlygeek/bornite/internal/tailcat"
 )
 
 const TailcatEphemeralKey = "ephemeral"

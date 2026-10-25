@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/logmon"
 )
 
 var benchmarkSolveResult solveResult

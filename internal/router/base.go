@@ -9,11 +9,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/router/scheduler"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/router/scheduler"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 type shutdownReq struct {

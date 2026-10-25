@@ -1,7 +1,7 @@
 package main
 
-// created for issue: #252 https://github.com/mostlygeek/herd/issues/252
-// this simple benchmark tool sends a lot of small chat completion requests to herd
+// created for issue: #252 https://github.com/mostlygeek/bornite/issues/252
+// this simple benchmark tool sends a lot of small chat completion requests to bornite
 // to make sure all the requests are accounted for.
 //
 // requests can be sent in parallel, and the tool will report the results.

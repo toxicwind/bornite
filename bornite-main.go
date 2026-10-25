@@ -16,15 +16,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/event"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/perf"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/server"
-	"github.com/mostlygeek/herd/internal/shared"
-	"github.com/mostlygeek/herd/internal/store/sqlite"
-	"github.com/mostlygeek/herd/internal/watcher"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/perf"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/server"
+	"github.com/mostlygeek/bornite/internal/shared"
+	"github.com/mostlygeek/bornite/internal/store/sqlite"
+	"github.com/mostlygeek/bornite/internal/watcher"
 )
 
 var (

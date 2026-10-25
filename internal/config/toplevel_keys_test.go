@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-// A config naming a key herd does not know must fail the load. yaml.v3 drops
+// A config naming a key bornite does not know must fail the load. yaml.v3 drops
 // such keys silently, which is how a top-level `aliases:` block sat in the
-// estate's herd.yaml for months: it parsed, it warned about nothing, and
+// estate's bornite.yaml for months: it parsed, it warned about nothing, and
 // nothing in it was ever served.
 func TestRejectsUnknownTopLevelKey(t *testing.T) {
 	_, err := LoadConfigFromReader(strings.NewReader(`
@@ -75,8 +75,8 @@ models:
 // catches a silently-dropped section in production config.
 func TestRealEstateConfigsLoad(t *testing.T) {
 	for _, p := range []string{
-		"/home/toxic/estate/config/herd.yaml",
-		"/home/toxic/kimi-auto/herd.d/kimi-auto.yaml",
+		"/home/toxic/estate/config/bornite.yaml",
+		"/home/toxic/kimi-auto/bornite.d/kimi-auto.yaml",
 	} {
 		f, err := os.Open(p)
 		if err != nil {

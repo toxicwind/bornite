@@ -1,5 +1,5 @@
 # Define variables for the application
-APP_NAME = herd
+APP_NAME = bornite
 BUILD_DIR = build
 
 # Get closest tag or if that fails (no git repo or no tags) then devel
@@ -100,7 +100,7 @@ test-ui:
 	cd ui && npm ci && npm run check && npm test
 
 # Score the Playground's Docs Agent against a local model. Builds and starts
-# herd itself; see evals/docs-agent/README.md for the tuning loop.
+# bornite itself; see evals/docs-agent/README.md for the tuning loop.
 eval-docs-agent:
 	./evals/docs-agent/run.sh $(EVAL_ARGS)
 

@@ -1,7 +1,7 @@
 {{/*
 Chart name (truncated to 63 chars per the k8s name limit).
 */}}
-{{- define "herd.name" -}}
+{{- define "bornite.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -9,7 +9,7 @@ Chart name (truncated to 63 chars per the k8s name limit).
 Fully qualified app name: <release>-<chart> unless the release name already
 contains the chart name (helm convention).
 */}}
-{{- define "herd.fullname" -}}
+{{- define "bornite.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -25,16 +25,16 @@ contains the chart name (helm convention).
 {{/*
 Chart label value.
 */}}
-{{- define "herd.chart" -}}
+{{- define "bornite.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Standard labels for every object the chart renders.
 */}}
-{{- define "herd.labels" -}}
-helm.sh/chart: {{ include "herd.chart" . }}
-{{ include "herd.selectorLabels" . }}
+{{- define "bornite.labels" -}}
+helm.sh/chart: {{ include "bornite.chart" . }}
+{{ include "bornite.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -44,17 +44,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Labels that select the head-end pod. Must be immutable after install.
 */}}
-{{- define "herd.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "herd.name" . }}
+{{- define "bornite.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "bornite.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 ServiceAccount the head-end (and its kubeswap calls) runs as.
 */}}
-{{- define "herd.serviceAccountName" -}}
+{{- define "bornite.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-{{- default (include "herd.fullname" .) .Values.serviceAccount.name -}}
+{{- default (include "bornite.fullname" .) .Values.serviceAccount.name -}}
 {{- else -}}
 {{- default "default" .Values.serviceAccount.name -}}
 {{- end -}}
@@ -63,11 +63,11 @@ ServiceAccount the head-end (and its kubeswap calls) runs as.
 {{/*
 ConfigMap holding config.yaml: the chart's own, or an existing one.
 */}}
-{{- define "herd.configMapName" -}}
+{{- define "bornite.configMapName" -}}
 {{- if .Values.config.existing -}}
 {{- .Values.config.existing -}}
 {{- else -}}
-{{- include "herd.fullname" . -}}
+{{- include "bornite.fullname" . -}}
 {{- end -}}
 {{- end -}}
 
@@ -83,7 +83,7 @@ chart defaults to the versioned docker release tag built from that
 release's commit, without the version being codified into the tag
 string.
 */}}
-{{- define "herd.image" -}}
+{{- define "bornite.image" -}}
 {{- $tag := .Values.image.tag -}}
 {{- if not $tag -}}
 {{- $tag = printf "unified-vulkan-%s" .Chart.AppVersion -}}

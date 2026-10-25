@@ -139,7 +139,7 @@ func (r *PerProviderRateLimiter) Record429(provider string, retryAfterDur time.D
 		r.backoffDuration[provider] = backoff
 	}
 
-	// Add full jitter (AWS/GCF best practice) to prevent thundering herd
+	// Add full jitter (AWS/GCF best practice) to prevent thundering bornite
 	// sleep = random(0, backoff) — spreads retries across the window
 	jitter := time.Duration(rand.Int63n(int64(backoff)))
 	r.backoffUntil[provider] = time.Now().Add(jitter)

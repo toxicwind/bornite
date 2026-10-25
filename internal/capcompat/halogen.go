@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/mostlygeek/herd/internal/config"
+	"github.com/mostlygeek/bornite/internal/config"
 )
 
 // halogenOwner is what halogen-flash-server reports in /v1/models.

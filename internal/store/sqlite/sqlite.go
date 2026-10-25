@@ -14,7 +14,7 @@ import (
 	"github.com/pressly/goose/v3"
 	_ "modernc.org/sqlite"
 
-	"github.com/mostlygeek/herd/internal/store"
+	"github.com/mostlygeek/bornite/internal/store"
 )
 
 //go:embed migrations/*.sql

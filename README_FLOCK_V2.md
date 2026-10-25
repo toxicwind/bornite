@@ -5,14 +5,14 @@
 > shipped binary**. The binary logs `[WARN] astMatrix config block is retired
 > and ignored; configure flock: instead`, serves **404** on `/flock/status`,
 > `/flock/metrics`, `/astmatrix/status`, and `/astmatrix/metrics`. Live cloud
-> routing is **delegation**: the `flock:` config key points herd at the flock
+> routing is **delegation**: the `flock:` config key points bornite at the flock
 > daemon on `127.0.0.1:8000`, whose models appear in `/v1/models` with the
 > `flock:` prefix (e.g. `flock: 01-ai/yi-large`). What follows documents the
 > tree-only `internal/flock` package for reference.
 
 ## Overview
 
-flock is a first-class routing module for herd that provides intelligent dispatch to cloud LLM providers with production-grade reliability features.
+flock is a first-class routing module for bornite that provides intelligent dispatch to cloud LLM providers with production-grade reliability features.
 
 ## Architecture (Modular)
 
@@ -44,7 +44,7 @@ flock is a first-class routing module for herd that provides intelligent dispatc
 
 ## Built-in Providers (13)
 
-- herd (local)
+- bornite (local)
 - openrouter, nvidia, groq, together, cerebras, fireworks, hyperbolic
 - github (models.inference.ai), mistral, openai, perplexity, siliconflow
 
@@ -63,7 +63,7 @@ flock is a first-class routing module for herd that provides intelligent dispatc
 
 The live configuration is the **`flock:` delegation key** (see the retired
 `astMatrix:` block below for what NOT to use). From the live
-`/home/toxic/estate/config/herd.yaml`:
+`/home/toxic/estate/config/bornite.yaml`:
 
 ```yaml
 # RETIRED 2026-09-17: astMatrix in-process router replaced by Flock delegation.
@@ -108,12 +108,12 @@ astMatrix:
 The in-process router implemented the `router.Router` interface as a drop-in
 replacement dispatched from `server.go` when the requested model was handled by
 the cloud matrix. This integration path is retired along with the `astMatrix:`
-key; herd now reaches cloud models through the flock daemon (`flock:` key).
+key; bornite now reaches cloud models through the flock daemon (`flock:` key).
 
 ## Build
 
 ```bash
-cd herd
+cd bornite
 go build ./...
 ```
 

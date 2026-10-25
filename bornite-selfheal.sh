@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# herd-selfheal.sh — one-shot herd health check + safe auto-repair.
+# bornite-selfheal.sh — one-shot bornite health check + safe auto-repair.
 #
-# Run this before asking "is herd broken?":
-#   /home/toxic/estate/ranch/mesh/router/herd/herd-selfheal.sh
+# Run this before asking "is bornite broken?":
+#   /home/toxic/estate/ranch/mesh/router/bornite/bornite-selfheal.sh
 #
 # What it does:
 #   1. Verifies the engines/ symlink target is live (3 engine binaries);
-#      re-points it to the canonical /home/toxic/estate/engines/herd if stale.
+#      re-points it to the canonical /home/toxic/estate/engines/bornite if stale.
 #   2. Verifies the canonical config parses as YAML (values never printed).
 #   3. Verifies the repo config.yaml resolves to the canonical config.
-#   4. Runs `go build ./...` on the herd module.
-#   5. Runs `go vet ./...` on the herd module.
+#   4. Runs `go build ./...` on the bornite module.
+#   5. Runs `go vet ./...` on the bornite module.
 #   6. Verifies the 3 engine llama-server binaries are executable.
-#   7. Probes the herd daemon /health endpoint.
+#   7. Probes the bornite daemon /health endpoint.
 #   8. Reports running llama-server processes (informational).
 #
 # Idempotent and safe: the ONLY repair it performs is re-pointing the
@@ -20,16 +20,16 @@
 # never prints secrets. Exit 0 = all PASS, 1 = something FAILED.
 set -uo pipefail
 
-HERD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BORNITE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOV="/home/toxic/estate"
-CANON_CONFIG="$SOV/config/herd.yaml"
-ENGINES_LINK="$HERD_DIR/engines"
-ENGINES_CANON="$SOV/engines/herd"
+CANON_CONFIG="$SOV/config/bornite.yaml"
+ENGINES_LINK="$BORNITE_DIR/engines"
+ENGINES_CANON="$SOV/engines/bornite"
 GO_BIN="${GO_BIN:-/usr/bin/go}"
-HERD_PORT=25100
+BORNITE_PORT=25100
 if [ -f "$SOV/config/ports.env" ]; then
-  _p="$(grep -E '^HERD_PORT=' "$SOV/config/ports.env" 2>/dev/null | cut -d= -f2 | tail -1)"
-  [ -n "$_p" ] && HERD_PORT="$_p"
+  _p="$(grep -E '^BORNITE_PORT=' "$SOV/config/ports.env" 2>/dev/null | cut -d= -f2 | tail -1)"
+  [ -n "$_p" ] && BORNITE_PORT="$_p"
 fi
 
 PASS=0; FAIL=0; REPAIRED=0
@@ -72,7 +72,7 @@ else
 fi
 
 # --- 3. repo config.yaml tracks canonical --------------------------------
-if [ "$(readlink -f "$HERD_DIR/config.yaml" 2>/dev/null)" = "$CANON_CONFIG" ]; then
+if [ "$(readlink -f "$BORNITE_DIR/config.yaml" 2>/dev/null)" = "$CANON_CONFIG" ]; then
   ok "repo config.yaml -> canonical config"
 else
   bad "repo config.yaml does not resolve to $CANON_CONFIG"
@@ -80,15 +80,15 @@ fi
 
 # --- 4/5. go build + go vet ----------------------------------------------
 if [ -x "$GO_BIN" ]; then
-  if (cd "$HERD_DIR" && "$GO_BIN" build ./... >/tmp/herd-selfheal-build.log 2>&1); then
+  if (cd "$BORNITE_DIR" && "$GO_BIN" build ./... >/tmp/bornite-selfheal-build.log 2>&1); then
     ok "go build ./..."
   else
-    bad "go build ./... (log: /tmp/herd-selfheal-build.log)"
+    bad "go build ./... (log: /tmp/bornite-selfheal-build.log)"
   fi
-  if (cd "$HERD_DIR" && timeout 180 "$GO_BIN" vet ./... >/tmp/herd-selfheal-vet.log 2>&1); then
+  if (cd "$BORNITE_DIR" && timeout 180 "$GO_BIN" vet ./... >/tmp/bornite-selfheal-vet.log 2>&1); then
     ok "go vet ./..."
   else
-    bad "go vet ./... (log: /tmp/herd-selfheal-vet.log)"
+    bad "go vet ./... (log: /tmp/bornite-selfheal-vet.log)"
   fi
 else
   bad "go toolchain not found at $GO_BIN"
@@ -105,18 +105,18 @@ for b in beellama.cpp/build-cuda86/bin/llama-server \
 done
 if [ "$n" -eq 3 ]; then ok "3/3 engine binaries executable"; else bad "$n/3 engine binaries executable"; fi
 
-# --- 7. herd daemon health (3 attempts; transient stalls happen) --------------
+# --- 7. bornite daemon health (3 attempts; transient stalls happen) --------------
 healthy=0
 for _try in 1 2 3; do
-  if curl -sf --max-time 5 "http://127.0.0.1:${HERD_PORT}/health" >/dev/null 2>&1; then
+  if curl -sf --max-time 5 "http://127.0.0.1:${BORNITE_PORT}/health" >/dev/null 2>&1; then
     healthy=1; break
   fi
   sleep 1
 done
 if [ "$healthy" -eq 1 ]; then
-  ok "herd daemon /health on 127.0.0.1:${HERD_PORT}"
+  ok "bornite daemon /health on 127.0.0.1:${BORNITE_PORT}"
 else
-  bad "herd daemon /health unreachable on 127.0.0.1:${HERD_PORT} (3 attempts)"
+  bad "bornite daemon /health unreachable on 127.0.0.1:${BORNITE_PORT} (3 attempts)"
 fi
 
 # --- 8. engine processes (informational only) -------------------------------
@@ -125,5 +125,5 @@ note "$np llama-server process(es) running"
 
 # --- summary ---------------------------------------------------------------
 echo '---'
-echo "herd self-heal: $PASS passed, $FAIL failed$([ "$REPAIRED" -gt 0 ] && echo ", $REPAIRED repaired")"
+echo "bornite self-heal: $PASS passed, $FAIL failed$([ "$REPAIRED" -gt 0 ] && echo ", $REPAIRED repaired")"
 [ "$FAIL" -eq 0 ]

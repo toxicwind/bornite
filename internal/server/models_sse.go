@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
 )
 
 // ModelEvent is the exact envelope Zed's llama.cpp provider expects from
@@ -54,7 +54,7 @@ type modelEventClient struct {
 }
 
 // modelEventBroadcaster fans model lifecycle events out to all subscribed
-// /models/sse clients. The proxy owns the truth: herd starts and
+// /models/sse clients. The proxy owns the truth: bornite starts and
 // stops every backend process, so it can emit loaded/unloaded/loading
 // events regardless of whether the backend itself supports /models/sse.
 type modelEventBroadcaster struct {

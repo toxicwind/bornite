@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mostlygeek/herd/internal/chain"
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/chain"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // CreateMetricsMiddleware returns middleware that records token metrics for

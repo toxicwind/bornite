@@ -1,15 +1,15 @@
 {
-  "name": "herd-herd",
+  "name": "bornite-bornite",
   "version": "18.1.14",
-  "description": "Maximal estate herd \u2014 herd engine with mesh orchestration",
-  "main": "herd.go",
+  "description": "Maximal estate bornite \u2014 bornite engine with mesh orchestration",
+  "main": "bornite.go",
   "scripts": {
     "start": "go run ./cmd/main.go",
     "test": "go test ./...",
     "lint": "gofmt -l ./internal ./cmd",
     "go-mod": "go mod download && go mod tidy",
     "full-install": "go mod download",
-    "docker-build": "docker build -t herd ./docker/unified",
+    "docker-build": "docker build -t bornite ./docker/unified",
     "benchmark": "go test -bench=. ./internal/bench/..."
   },
   "dependencies": {},
@@ -30,11 +30,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/toxicwind/herd.git"
+    "url": "https://github.com/toxicwind/bornite.git"
   },
   "keywords": [
-    "herd",
-    "herd",
+    "bornite",
+    "bornite",
     "mesh",
     "estate",
     "inference"

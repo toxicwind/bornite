@@ -13,17 +13,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/capcompat"
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/docagent"
-	"github.com/mostlygeek/herd/internal/event"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/mcptools"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/router"
-	"github.com/mostlygeek/herd/internal/store"
-	"github.com/mostlygeek/herd/internal/store/sqlite"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/capcompat"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/docagent"
+	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/mcptools"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/router"
+	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/mostlygeek/bornite/internal/store/sqlite"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // stubRouter

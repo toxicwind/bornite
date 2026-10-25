@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # probe-peer-health.sh — live end-to-end proof of event-driven dead-peer
-# self-healing for the herd router.
+# self-healing for the bornite router.
 #
 # Fully event-driven driver: no sleep, no polling loops, no timeouts-as-delays.
 #   - Process readiness is signaled over named pipes. The driver blocks on
@@ -9,7 +9,7 @@
 #   - The cool-off is never slept through. A single cool-off cannot serve both
 #     halves of the proof (fail-fast needs cool-off >> driver latency;
 #     immediate recovery needs cool-off << driver latency), so the probe runs
-#     the herd twice:
+#     the bornite twice:
 #       run 1 (cool_off_seconds: 3600): proves weighted ejection and fail-fast
 #         503 while the circuit is open, without touching the backend.
 #       run 2 (cool_off_seconds: 0.005): the cool-off (5ms) is shorter than any
@@ -25,14 +25,14 @@
 # Spins up, on 127.0.0.1 only:
 #   1. a scripted backend (python http.server) with a mode file:
 #      healthy | fail500 | empty200
-#   2. the herd binary under test with a minimal one-peer config
+#   2. the bornite binary under test with a minimal one-peer config
 # then drives and asserts:
 #   run 1:
 #     A. healthy request -> 200, peer healthy
 #     B. fail500 x2 (weight 2.0, threshold 4) -> circuit OPEN
 #     C. request while open -> 503 peer_circuit_open, backend untouched,
 #        retry_after_ms advertised by the server
-#   run 2 (fresh herd, 5ms cool-off):
+#   run 2 (fresh bornite, 5ms cool-off):
 #     A2. healthy request -> 200, peer healthy
 #     B2. fail500 x2 -> circuit OPEN
 #     D2. backend healthy again -> the next real request is admitted as the
@@ -44,18 +44,18 @@
 #         to rotation
 #
 # Usage: probe-peer-health.sh [--bin PATH] [--keep]
-#   --bin PATH  herd binary to test (default: build from this repo)
+#   --bin PATH  bornite binary to test (default: build from this repo)
 #   --keep      leave processes running for manual inspection
-#   BE_PORT / HERD_PORT env overrides are honored when free; otherwise ports
+#   BE_PORT / BORNITE_PORT env overrides are honored when free; otherwise ports
 #   are allocated collision-free. TMPDIR may point scratch space elsewhere
 #   (fifos, logs) if /tmp is cramped.
 set -u
 
-HERD_BIN=""
+BORNITE_BIN=""
 KEEP=0
 while [ $# -gt 0 ]; do
   case "$1" in
-    --bin)  HERD_BIN="$2"; shift 2 ;;
+    --bin)  BORNITE_BIN="$2"; shift 2 ;;
     --keep) KEEP=1; shift ;;
     *) echo "usage: $0 [--bin PATH] [--keep]" >&2; exit 2 ;;
   esac
@@ -65,7 +65,7 @@ PEER=probe-peer
 MODEL=probe-model
 
 WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/probe-peer-health.XXXXXX")"
-BACKEND_PID=""; HERD_PID=""; DRAIN_PID=""
+BACKEND_PID=""; BORNITE_PID=""; DRAIN_PID=""
 
 fail() { echo "FAIL: $*" >&2; exit 1; }
 pass() { echo "ok: $*"; }
@@ -80,26 +80,26 @@ if [ -z "${BE_PORT:-}" ]; then
 elif ! port_free "$BE_PORT"; then
   fail "BE_PORT $BE_PORT already in use; refusing to disturb it"
 fi
-if [ -z "${HERD_PORT:-}" ]; then
-  HERD_PORT="$(pick_port)"
-elif ! port_free "$HERD_PORT"; then
-  fail "HERD_PORT $HERD_PORT already in use; refusing to disturb it"
+if [ -z "${BORNITE_PORT:-}" ]; then
+  BORNITE_PORT="$(pick_port)"
+elif ! port_free "$BORNITE_PORT"; then
+  fail "BORNITE_PORT $BORNITE_PORT already in use; refusing to disturb it"
 fi
-pass "ports: backend=:$BE_PORT herd=:$HERD_PORT"
+pass "ports: backend=:$BE_PORT bornite=:$BORNITE_PORT"
 
 stop_herd() {
-  [ -n "$HERD_PID" ] && kill "$HERD_PID" 2>/dev/null
+  [ -n "$BORNITE_PID" ] && kill "$BORNITE_PID" 2>/dev/null
   [ -n "$DRAIN_PID" ] && kill "$DRAIN_PID" 2>/dev/null
-  # Reap the herd children only (the backend outlives herd runs); wait is
+  # Reap the bornite children only (the backend outlives bornite runs); wait is
   # SIGCHLD-driven — an event, not a delay.
-  [ -n "$HERD_PID" ] && wait "$HERD_PID" 2>/dev/null
+  [ -n "$BORNITE_PID" ] && wait "$BORNITE_PID" 2>/dev/null
   [ -n "$DRAIN_PID" ] && wait "$DRAIN_PID" 2>/dev/null
-  HERD_PID=""; DRAIN_PID=""
+  BORNITE_PID=""; DRAIN_PID=""
 }
 
 cleanup() {
   if [ "$KEEP" = 1 ]; then
-    echo "keeping procs (backend=$BACKEND_PID herd=$HERD_PID) workdir=$WORKDIR"
+    echo "keeping procs (backend=$BACKEND_PID bornite=$BORNITE_PID) workdir=$WORKDIR"
     return
   fi
   stop_herd
@@ -110,13 +110,13 @@ cleanup() {
 trap cleanup EXIT
 
 # ---- binary ------------------------------------------------------------
-if [ -z "$HERD_BIN" ]; then
+if [ -z "$BORNITE_BIN" ]; then
   HERE="$(cd "$(dirname "$0")/.." && pwd)"
-  HERD_BIN="$WORKDIR/herd"
-  (cd "$HERE" && go build -o "$HERD_BIN" .) || fail "go build failed"
+  BORNITE_BIN="$WORKDIR/bornite"
+  (cd "$HERE" && go build -o "$BORNITE_BIN" .) || fail "go build failed"
 fi
-[ -x "$HERD_BIN" ] || fail "binary not executable: $HERD_BIN"
-pass "binary: $HERD_BIN"
+[ -x "$BORNITE_BIN" ] || fail "binary not executable: $BORNITE_BIN"
+pass "binary: $BORNITE_BIN"
 
 # ---- scripted backend --------------------------------------------------
 echo healthy > "$WORKDIR/mode"
@@ -166,16 +166,16 @@ read -t 20 -r _ <"$WORKDIR/be-ready" \
   || fail "backend never signaled ready (see $WORKDIR/backend.log)"
 pass "backend pid $BACKEND_PID on :$BE_PORT"
 
-# ---- herd lifecycle ----------------------------------------------------
-drain_herd_out() { # <tag> : background log drain; signals herd-ready-<tag>
+# ---- bornite lifecycle ----------------------------------------------------
+drain_bornite_out() { # <tag> : background log drain; signals bornite-ready-<tag>
   local tag=$1 line signaled=0    # on the "listening on http" line
   while IFS= read -r line; do
-    printf '%s\n' "$line" >>"$WORKDIR/herd-$tag.log"
+    printf '%s\n' "$line" >>"$WORKDIR/bornite-$tag.log"
     if (( !signaled )) && [[ "$line" == *"listening on http"* ]]; then
       signaled=1
-      printf 'ready\n' >"$WORKDIR/herd-ready-$tag"
+      printf 'ready\n' >"$WORKDIR/bornite-ready-$tag"
     fi
-  done <"$WORKDIR/herd-out-$tag"
+  done <"$WORKDIR/bornite-out-$tag"
 }
 
 write_config() { # <cool_off_seconds> <path>
@@ -207,29 +207,29 @@ YAMLEOF
 
 start_herd() { # <config> <tag>
   local cfg=$1 tag=$2
-  mkfifo "$WORKDIR/herd-out-$tag" "$WORKDIR/herd-ready-$tag"
-  # The shell opens herd-out-<tag> for writing on the herd's behalf; the open
+  mkfifo "$WORKDIR/bornite-out-$tag" "$WORKDIR/bornite-ready-$tag"
+  # The shell opens bornite-out-<tag> for writing on the bornite's behalf; the open
   # blocks until the drain loop below opens it for reading — rendezvous.
-  "$HERD_BIN" --config "$cfg" --listen "127.0.0.1:$HERD_PORT" \
-    >"$WORKDIR/herd-out-$tag" 2>&1 &
-  HERD_PID=$!
-  drain_herd_out "$tag" &
+  "$BORNITE_BIN" --config "$cfg" --listen "127.0.0.1:$BORNITE_PORT" \
+    >"$WORKDIR/bornite-out-$tag" 2>&1 &
+  BORNITE_PID=$!
+  drain_bornite_out "$tag" &
   DRAIN_PID=$!
-  # Hang backstop only: fail loudly if the herd dies before signaling.
-  read -t 20 -r _ <"$WORKDIR/herd-ready-$tag" \
-    || fail "herd($tag) never signaled ready (see $WORKDIR/herd-$tag.log)"
-  pass "herd($tag) pid $HERD_PID on :$HERD_PORT"
+  # Hang backstop only: fail loudly if the bornite dies before signaling.
+  read -t 20 -r _ <"$WORKDIR/bornite-ready-$tag" \
+    || fail "bornite($tag) never signaled ready (see $WORKDIR/bornite-$tag.log)"
+  pass "bornite($tag) pid $BORNITE_PID on :$BORNITE_PORT"
 }
 
 # ---- request helpers ---------------------------------------------------
 req() { # req -> http code of one chat completion through the peer
   curl -sS -o /dev/null -w '%{http_code}' -m 20 \
-    -X POST "http://127.0.0.1:$HERD_PORT/v1/chat/completions" \
+    -X POST "http://127.0.0.1:$BORNITE_PORT/v1/chat/completions" \
     -H 'Content-Type: application/json' \
     -d "{\"model\":\"$MODEL\",\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}],\"max_tokens\":8}"
 }
 peer_json() { # peer_json -> the JSON object for $PEER from /peer-health
-  curl -sS -m 10 "http://127.0.0.1:$HERD_PORT/peer-health" | \
+  curl -sS -m 10 "http://127.0.0.1:$BORNITE_PORT/peer-health" | \
     PEER_NAME="$PEER" python3 -c "
 import sys, json, os
 snaps = json.load(sys.stdin)
@@ -257,8 +257,8 @@ hits() { cat "$WORKDIR/hits"; }
 set_mode() { echo "$1" > "$WORKDIR/mode"; pass "backend mode -> $1"; }
 
 # ==== run 1: ejection + fail-fast (long cool-off) ========================
-write_config 3600 "$WORKDIR/herd1.yaml"
-start_herd "$WORKDIR/herd1.yaml" run1
+write_config 3600 "$WORKDIR/bornite1.yaml"
+start_herd "$WORKDIR/bornite1.yaml" run1
 
 # ---- A. healthy ---------------------------------------------------------
 code=$(req)
@@ -278,7 +278,7 @@ pass "B: 2x 500 -> circuit-open (weighted ejection)"
 h0=$(hits)
 code=$(req)
 [ "$code" = "503" ] || fail "C: expected 503 fail-fast, got $code"
-body=$(curl -sS -m 20 -X POST "http://127.0.0.1:$HERD_PORT/v1/chat/completions" \
+body=$(curl -sS -m 20 -X POST "http://127.0.0.1:$BORNITE_PORT/v1/chat/completions" \
   -H 'Content-Type: application/json' \
   -d "{\"model\":\"$MODEL\",\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}],\"max_tokens\":8}")
 echo "$body" | grep -q peer_circuit_open || fail "C: 503 body missing peer_circuit_open"
@@ -294,8 +294,8 @@ pass "run 1 complete: ejection + fail-fast proven"
 # The cool-off is shorter than any real inter-request gap, so the first
 # request after the backend recovers is admitted as the half-open probe.
 # No waiting of any kind: the probe is purely an event.
-write_config 0.005 "$WORKDIR/herd2.yaml"
-start_herd "$WORKDIR/herd2.yaml" run2
+write_config 0.005 "$WORKDIR/bornite2.yaml"
+start_herd "$WORKDIR/bornite2.yaml" run2
 
 # ---- A2. healthy ---------------------------------------------------------
 set_mode healthy

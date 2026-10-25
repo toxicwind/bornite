@@ -1,4 +1,4 @@
-module github.com/mostlygeek/herd
+module github.com/mostlygeek/bornite
 
 go 1.27.1
 

@@ -55,7 +55,7 @@ func TestOrchestrator_RunDiscover_AgainstFakeHerd(t *testing.T) {
 	assert.Equal(t, PhaseDiscover, o.State.Phase.Current)
 	_, err := os.Stat(ymlPath)
 	assert.NoError(t, err)
-	assert.Contains(t, o.ModelsYML.Providers, "herd")
+	assert.Contains(t, o.ModelsYML.Providers, "bornite")
 }
 
 func TestOrchestrator_RunDiscover_FailureMarksBlocked(t *testing.T) {

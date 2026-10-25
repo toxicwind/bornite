@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"sort"
 
-	"github.com/mostlygeek/herd/internal/tailcat"
+	"github.com/mostlygeek/bornite/internal/tailcat"
 )
 
 type PeerDictionaryConfig map[string]PeerConfig

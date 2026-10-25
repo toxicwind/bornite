@@ -1,9 +1,9 @@
-# herd/race — universal code racer as a first-class Herd model
+# bornite/race — universal code racer as a first-class Bornite model
 
-> **STATUS (2026-09-20):** this service is planned, not yet built — `main.go`, the `herd-race` binary, the pitchfork entry (`estate/herd-race`), the `herd.yaml` peer block, and `config/herd-race.json` do not exist yet. Treat this README as a design doc until the service lands.
+> **STATUS (2026-09-20):** this service is planned, not yet built — `main.go`, the `bornite-race` binary, the pitchfork entry (`estate/bornite-race`), the `bornite.yaml` peer block, and `config/bornite-race.json` do not exist yet. Treat this README as a design doc until the service lands.
 
-`herd/race` is the universal code racer ported into Herd natively. It is a
-selectable model like any other: send `{"model": "herd-race/herd/race"}` to
+`bornite/race` is the universal code racer ported into Bornite natively. It is a
+selectable model like any other: send `{"model": "bornite-race/bornite/race"}` to
 `http://127.0.0.1:25100/v1/chat/completions` and the racer fans the request out
 to every code backend concurrently. **First valid completion wins** — not
 first response.
@@ -11,23 +11,23 @@ first response.
 ## Architecture
 
 ```
-client -> :25100 (herd) -> peer herd-race -> :25161 (this service)
+client -> :25100 (bornite) -> peer bornite-race -> :25161 (this service)
                                               |-- nim-nemotron   (:25104 NIM proxy)
-                                              |-- herd-local     (:25100 qwen-flash-128k)
-                                              |-- herd-local-fast(:25122 beellama EXAONE)
+                                              |-- bornite-local     (:25100 qwen-flash-128k)
+                                              |-- bornite-local-fast(:25122 beellama EXAONE)
                                               |-- pollinations-anon (text.pollinations.ai, keyless)
                                               +-- kimi           (:25100 openrouter-kimi, usually 401)
 ```
 
-- **Service:** Go, `main.go` → binary `herd-race`, supervised by pitchfork
-  (`estate/herd-race`), config `/home/toxic/estate/config/herd-race.json`,
-  port `25161` (`HERD_RACE_PORT` in `ports.env`).
-- **Herd wiring:** peer `herd-race` in `/home/toxic/estate/config/herd.yaml`
-  (`proxy: http://127.0.0.1:25161`, `models: [herd/race]`). Herd's
+- **Service:** Go, `main.go` → binary `bornite-race`, supervised by pitchfork
+  (`estate/bornite-race`), config `/home/toxic/estate/config/bornite-race.json`,
+  port `25161` (`BORNITE_RACE_PORT` in `ports.env`).
+- **Bornite wiring:** peer `bornite-race` in `/home/toxic/estate/config/bornite.yaml`
+  (`proxy: http://127.0.0.1:25161`, `models: [bornite/race]`). Bornite's
   `--watch-config` picks it up without restart; it appears in `/v1/models`
-  as `herd-race/herd/race` (house peer-qualified convention).
+  as `bornite-race/bornite/race` (house peer-qualified convention).
 - **No credentials in this service.** NIM goes through the local `:25104`
-  proxy (no key needed); Kimi reuses the existing Herd route; Pollinations
+  proxy (no key needed); Kimi reuses the existing Bornite route; Pollinations
   uses the anonymous keyless lane. Nothing secret is stored or logged.
 
 ## Racer doctrine (ported from `~/workspace/skills/race/`)
@@ -50,7 +50,7 @@ client -> :25100 (herd) -> peer herd-race -> :25161 (this service)
 - Persistent HTTP/2 transports, tuned pools; microsecond/monotonic timing
   on every attempt.
 - JSONL winner history: `~/.cache/fleet-bus/hft_race_winners.jsonl` (tag
-  `herd/race`); startup seeds latency/wins from it so the racer leads with
+  `bornite/race`); startup seeds latency/wins from it so the racer leads with
   historical winners.
 - Telemetry: `X-Race-Winner`, `X-Race-Attempts` (per-contestant ms),
   `X-Race-Total-Ms` response headers; `GET /health` exposes per-contestant
@@ -65,7 +65,7 @@ client -> :25100 (herd) -> peer herd-race -> :25161 (this service)
 curl -s http://127.0.0.1:25161/health | python3 -m json.tool
 
 # supervised lifecycle
-/home/toxic/estate/stack/pf.sh start|stop estate/herd-race
+/home/toxic/estate/stack/pf.sh start|stop estate/bornite-race
 
 # model visible through the router?
 curl -s http://127.0.0.1:25100/v1/models | python3 -c \
@@ -92,9 +92,9 @@ shaped the config:
 
 | Path | Role |
 | ---- | ---- |
-| `main.go`, `main_test.go`, `go.mod` | Service source (also mirrored in `~/workspace/audit-fix/race-port/herd-race/`) |
-| `herd-race` | Built binary (rebuilt on yote; `go build -o herd-race .`) |
-| `/home/toxic/estate/config/herd-race.json` | Contestants, timeouts, breaker, log path |
-| `/home/toxic/estate/config/herd.yaml` | `herd-race` peer block |
-| `/home/toxic/estate/pitchfork.toml` | `[daemons.herd-race]` supervision |
-| `/home/toxic/estate/config/ports.env` | `HERD_RACE_PORT=25161` |
+| `main.go`, `main_test.go`, `go.mod` | Service source (also mirrored in `~/workspace/audit-fix/race-port/bornite-race/`) |
+| `bornite-race` | Built binary (rebuilt on yote; `go build -o bornite-race .`) |
+| `/home/toxic/estate/config/bornite-race.json` | Contestants, timeouts, breaker, log path |
+| `/home/toxic/estate/config/bornite.yaml` | `bornite-race` peer block |
+| `/home/toxic/estate/pitchfork.toml` | `[daemons.bornite-race]` supervision |
+| `/home/toxic/estate/config/ports.env` | `BORNITE_RACE_PORT=25161` |

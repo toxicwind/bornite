@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Autonomous post-build subcommand -> macro generator for beellama vs turboquant llama-server.
-Parses llama-server --help, extracts flags, and updates herd.yaml with generated macros.
+Parses llama-server --help, extracts flags, and updates bornite.yaml with generated macros.
 """
 
 import os
@@ -11,8 +11,8 @@ import sys
 import yaml
 import argparse
 
-DEFAULT_SERVER_BIN = "/home/toxic/estate/engines/herd/beellama.cpp/build-cuda86/bin/llama-server"
-DEFAULT_CONFIG_PATH = os.path.expanduser("/home/toxic/estate/config/herd.yaml")
+DEFAULT_SERVER_BIN = "/home/toxic/estate/engines/bornite/beellama.cpp/build-cuda86/bin/llama-server"
+DEFAULT_CONFIG_PATH = os.path.expanduser("/home/toxic/estate/config/bornite.yaml")
 
 def extract_flags(binary_path):
     if not os.path.exists(binary_path):
@@ -35,12 +35,12 @@ def extract_flags(binary_path):
     return sorted(list(flags))
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate subcommand macros for llama-server and update herd.yaml')
+    parser = argparse.ArgumentParser(description='Generate subcommand macros for llama-server and update bornite.yaml')
     parser.add_argument('--binary', 
                         help='Path to llama-server binary (overrides BEELLAMA_BIN env var and default)',
                         default=os.environ.get('BEELLAMA_BIN', DEFAULT_SERVER_BIN))
     parser.add_argument('--config', 
-                        help='Path to herd.yaml (overrides default)',
+                        help='Path to bornite.yaml (overrides default)',
                         default=DEFAULT_CONFIG_PATH)
     
     args = parser.parse_args()

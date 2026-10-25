@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/cache"
-	"github.com/mostlygeek/herd/internal/event"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/store"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/cache"
+	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 	"github.com/tidwall/gjson"
 )
 

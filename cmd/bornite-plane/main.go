@@ -37,6 +37,6 @@ func main() {
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 	if err := c.Run(); err != nil {
-		log.Fatalf("herd launcher failed: %v", err)
+		log.Fatalf("bornite launcher failed: %v", err)
 	}
 }

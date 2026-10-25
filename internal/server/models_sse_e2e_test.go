@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
 )
 
 // TestModelEvents_EndToEnd exercises the full /models/sse chain the way Zed's

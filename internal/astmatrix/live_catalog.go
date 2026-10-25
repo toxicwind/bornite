@@ -19,7 +19,7 @@ package astmatrix
 //
 // When the live file is absent or unreadable, providers fall back to their
 // generated cold-start seeds (dead-filtered). The file is re-read whenever
-// its mtime changes, so a TS-side quarantine propagates to herd without a
+// its mtime changes, so a TS-side quarantine propagates to bornite without a
 // restart and without any polling timer on our side.
 
 import (
@@ -161,7 +161,7 @@ func (r *LiveCatalogReader) SyncProviderModels(providers map[string]*provider) {
 }
 
 // ------------------------------------------------------------------
-// 404 event reporting — herd reports, the TS brain decides.
+// 404 event reporting — bornite reports, the TS brain decides.
 // ------------------------------------------------------------------
 
 // serve404Endpoint is the TS router's 404 intake. Override with
@@ -176,7 +176,7 @@ func serve404Endpoint() string {
 // reportServe404 posts a serve-time 404 to the TS catalog brain. Best-effort:
 // short timeout, failures are logged and dropped, never retried, never
 // blocking. The TS side quarantines the id and rewrites the live catalog
-// file; herd picks the new serving set up on its next read.
+// file; bornite picks the new serving set up on its next read.
 func reportServe404(provider, model string) {
 	url := serve404Endpoint()
 	if url == "" {

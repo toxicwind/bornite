@@ -1,6 +1,6 @@
 ARG SD_IMAGE=ghcr.io/leejet/stable-diffusion.cpp
 ARG SD_TAG=master-vulkan
-ARG BASE=herd:latest
+ARG BASE=bornite:latest
 
 FROM ${SD_IMAGE}:${SD_TAG} AS sd-source
 FROM ${BASE}

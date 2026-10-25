@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/router/scheduler"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/router/scheduler"
 )
 
 func TestModelEvents_PrimeEmitsLoaded(t *testing.T) {

@@ -10,21 +10,21 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/astmatrix"
-	"github.com/mostlygeek/herd/internal/capcompat"
-	"github.com/mostlygeek/herd/internal/chain"
-	"github.com/mostlygeek/herd/internal/config"
-	"github.com/mostlygeek/herd/internal/docagent"
-	"github.com/mostlygeek/herd/internal/event"
-	"github.com/mostlygeek/herd/internal/freeproxy"
-	"github.com/mostlygeek/herd/internal/hw"
-	"github.com/mostlygeek/herd/internal/logmon"
-	"github.com/mostlygeek/herd/internal/mcptools"
-	"github.com/mostlygeek/herd/internal/perf"
-	"github.com/mostlygeek/herd/internal/process"
-	"github.com/mostlygeek/herd/internal/router"
-	"github.com/mostlygeek/herd/internal/store"
-	"github.com/mostlygeek/herd/internal/swaputil"
+	"github.com/mostlygeek/bornite/internal/astmatrix"
+	"github.com/mostlygeek/bornite/internal/capcompat"
+	"github.com/mostlygeek/bornite/internal/chain"
+	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/mostlygeek/bornite/internal/docagent"
+	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/mostlygeek/bornite/internal/freeproxy"
+	"github.com/mostlygeek/bornite/internal/hw"
+	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/mostlygeek/bornite/internal/mcptools"
+	"github.com/mostlygeek/bornite/internal/perf"
+	"github.com/mostlygeek/bornite/internal/process"
+	"github.com/mostlygeek/bornite/internal/router"
+	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/mostlygeek/bornite/internal/swaputil"
 )
 
 // Server owns the HTTP mux, cross-cutting middleware, and the local/peer model
@@ -43,7 +43,7 @@ type Server struct {
 	store    store.Store
 	hardware *hw.HardwareSnapshot
 
-	// reference is herd's own embedded documentation, served to the
+	// reference is bornite's own embedded documentation, served to the
 	// Playground's agentic chat and to external MCP clients through /api/mcp.
 	// It is immutable and independent of cfg, so the same library is shared
 	// across the Server instances a hot config reload creates. A nil value
@@ -413,7 +413,7 @@ func (s *Server) routes() {
 		mux.Handle("GET "+path, modelChain.Then(dispatch))
 	}
 
-	// herd API + custom endpoints.
+	// bornite API + custom endpoints.
 	mux.Handle("GET /v1/models", apiChain.ThenFunc(s.handleListModels))
 	mux.Handle("GET /models", apiChain.ThenFunc(s.handleListModels))
 	// llama.cpp-compatible model event feed (Zed /models/sse consumer).
@@ -467,7 +467,7 @@ func (s *Server) routes() {
 	mux.Handle("GET /api/hardware", apiChain.ThenFunc(s.handleAPIHardware))
 	mux.Handle("GET /api/captures/{id}", apiChain.ThenFunc(s.handleAPICapture))
 
-	// Stateless MCP server exposing herd's own documentation as tools,
+	// Stateless MCP server exposing bornite's own documentation as tools,
 	// consumed by the Playground's agentic chat and by any external MCP client.
 	// Registered without a method so non-POST reaches the handler and gets a
 	// 405 with Allow, rather than the mux's bare 404.

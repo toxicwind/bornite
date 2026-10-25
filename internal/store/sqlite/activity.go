@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/store"
+	"github.com/mostlygeek/bornite/internal/store"
 )
 
 // activityRepository implements store.ActivityRepository over the activity

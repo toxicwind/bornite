@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/herd/internal/config"
+	"github.com/mostlygeek/bornite/internal/config"
 )
 
 func TestReplaceRequestModel(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/herd/internal/store"
+	"github.com/mostlygeek/bornite/internal/store"
 )
 
 func TestStore_ActivitySourcePrefixSortAndLegacyDefault(t *testing.T) {

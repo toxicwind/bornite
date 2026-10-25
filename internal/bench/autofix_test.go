@@ -22,7 +22,7 @@ func TestLoadModelsYML_Roundtrip(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "models.yml")
 	initial := `providers:
-  herd:
+  bornite:
     baseUrl: http://127.0.0.1:25100/v1
     api: openai-completions
     auth: none
@@ -34,8 +34,8 @@ func TestLoadModelsYML_Roundtrip(t *testing.T) {
 
 	m, err := LoadModelsYML(path)
 	require.NoError(t, err)
-	require.Contains(t, m.Providers, "herd")
-	assert.Equal(t, "http://127.0.0.1:25100/v1", m.Providers["herd"].BaseURL)
+	require.Contains(t, m.Providers, "bornite")
+	assert.Equal(t, "http://127.0.0.1:25100/v1", m.Providers["bornite"].BaseURL)
 }
 
 func TestLoadModelsYML_Corrupt(t *testing.T) {
@@ -67,94 +67,94 @@ func TestModelsYML_SaveCreatesParentDirs(t *testing.T) {
 func TestEnsureHerdProvider_AddsWhenMissing(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{}}
 	m.EnsureHerdProvider("http://127.0.0.1:25100/v1")
-	require.Contains(t, m.Providers, "herd")
-	assert.Equal(t, "http://127.0.0.1:25100/v1", m.Providers["herd"].BaseURL)
-	assert.Equal(t, "openai-completions", m.Providers["herd"].API)
-	assert.Equal(t, "none", m.Providers["herd"].Auth)
+	require.Contains(t, m.Providers, "bornite")
+	assert.Equal(t, "http://127.0.0.1:25100/v1", m.Providers["bornite"].BaseURL)
+	assert.Equal(t, "openai-completions", m.Providers["bornite"].API)
+	assert.Equal(t, "none", m.Providers["bornite"].Auth)
 }
 
 func TestEnsureHerdProvider_Idempotent(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{}}
 	m.EnsureHerdProvider("http://first/v1")
-	original := m.Providers["herd"]
+	original := m.Providers["bornite"]
 	m.EnsureHerdProvider("http://second/v1")
-	assert.Equal(t, original, m.Providers["herd"], "second call must not clobber")
+	assert.Equal(t, original, m.Providers["bornite"], "second call must not clobber")
 }
 
 func TestApplyAutofix_DisablesDead(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{}}
-	d, e := m.ApplyAutofix("herd", []string{"a", "b"}, []string{"x", "y"})
+	d, e := m.ApplyAutofix("bornite", []string{"a", "b"}, []string{"x", "y"})
 	assert.Equal(t, 2, d)
 	assert.Equal(t, 0, e)
-	assert.True(t, m.Providers["herd"].ModelOverrides["x"]["disabled"].(bool))
-	assert.True(t, m.Providers["herd"].ModelOverrides["y"]["disabled"].(bool))
+	assert.True(t, m.Providers["bornite"].ModelOverrides["x"]["disabled"].(bool))
+	assert.True(t, m.Providers["bornite"].ModelOverrides["y"]["disabled"].(bool))
 }
 
 func TestApplyAutofix_ReenablesWorking(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{
-		"herd": {ModelOverrides: map[string]map[string]any{
+		"bornite": {ModelOverrides: map[string]map[string]any{
 			"a": {"disabled": true},
 			"b": {"disabled": true},
 		}},
 	}}
-	d, e := m.ApplyAutofix("herd", []string{"a", "b"}, nil)
+	d, e := m.ApplyAutofix("bornite", []string{"a", "b"}, nil)
 	assert.Equal(t, 0, d)
 	assert.Equal(t, 2, e)
-	_, hasA := m.Providers["herd"].ModelOverrides["a"]
-	_, hasB := m.Providers["herd"].ModelOverrides["b"]
+	_, hasA := m.Providers["bornite"].ModelOverrides["a"]
+	_, hasB := m.Providers["bornite"].ModelOverrides["b"]
 	assert.False(t, hasA, "empty override should be removed")
 	assert.False(t, hasB)
 }
 
 func TestApplyAutofix_KeepsNonDisabledOverrides(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{
-		"herd": {ModelOverrides: map[string]map[string]any{
+		"bornite": {ModelOverrides: map[string]map[string]any{
 			"a": {"maxTokens": 4096, "disabled": true},
 		}},
 	}}
-	_, e := m.ApplyAutofix("herd", []string{"a"}, nil)
+	_, e := m.ApplyAutofix("bornite", []string{"a"}, nil)
 	assert.Equal(t, 1, e)
 	// maxTokens should survive the re-enable
-	assert.Equal(t, 4096, m.Providers["herd"].ModelOverrides["a"]["maxTokens"])
+	assert.Equal(t, 4096, m.Providers["bornite"].ModelOverrides["a"]["maxTokens"])
 }
 
 func TestApplyAutofix_CountsNewlyDisabled(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{
-		"herd": {ModelOverrides: map[string]map[string]any{
+		"bornite": {ModelOverrides: map[string]map[string]any{
 			"x": {"disabled": true}, // already disabled
 		}},
 	}}
-	d, _ := m.ApplyAutofix("herd", nil, []string{"x", "y"})
+	d, _ := m.ApplyAutofix("bornite", nil, []string{"x", "y"})
 	assert.Equal(t, 1, d, "only y should count as newly disabled")
 }
 
 func TestApplyAutofix_MissingProvider(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{}}
-	d, e := m.ApplyAutofix("herd", nil, []string{"x"})
+	d, e := m.ApplyAutofix("bornite", nil, []string{"x"})
 	assert.Equal(t, 1, d)
 	assert.Equal(t, 0, e)
-	require.Contains(t, m.Providers, "herd", "missing provider should be created")
+	require.Contains(t, m.Providers, "bornite", "missing provider should be created")
 }
 
 func TestDisabledModels_Sorted(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{
-		"herd": {ModelOverrides: map[string]map[string]any{
+		"bornite": {ModelOverrides: map[string]map[string]any{
 			"z": {"disabled": true},
 			"a": {"disabled": true},
 			"m": {"disabled": true},
 		}},
 	}}
-	assert.Equal(t, []string{"a", "m", "z"}, m.DisabledModels("herd"))
+	assert.Equal(t, []string{"a", "m", "z"}, m.DisabledModels("bornite"))
 }
 
 func TestDisabledModels_IgnoresNonBoolean(t *testing.T) {
 	m := &ModelsYML{Providers: map[string]ProviderConfig{
-		"herd": {ModelOverrides: map[string]map[string]any{
+		"bornite": {ModelOverrides: map[string]map[string]any{
 			"x": {"disabled": "yes"}, // string, not bool
 			"y": {"disabled": true},
 		}},
 	}}
-	assert.Equal(t, []string{"y"}, m.DisabledModels("herd"))
+	assert.Equal(t, []string{"y"}, m.DisabledModels("bornite"))
 }
 
 func TestDisabledModels_UnknownProvider(t *testing.T) {
