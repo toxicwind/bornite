@@ -1,14 +1,14 @@
 apiVersion: v2
-name: bornite
+name: herd
 description: >-
-  bornite head-end with kubeswap: one OpenAI-compatible endpoint that
+  herd head-end with kubeswap: one OpenAI-compatible endpoint that
   manages inference backends (llama.cpp, stable-diffusion.cpp, whisper.cpp,
   audio.cpp) as Kubernetes workloads in the release namespace.
 type: application
 version: 0.1.0
 appVersion: "0.1.0"
 keywords:
-  - bornite
+  - herd
   - kubeswap
   - inference
   - llama.cpp

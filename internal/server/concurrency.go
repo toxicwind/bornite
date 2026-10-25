@@ -3,8 +3,8 @@ package server
 import (
 	"net/http"
 
-	"github.com/mostlygeek/bornite/internal/chain"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/chain"
+	"github.com/toxicwind/bornite/internal/swaputil"
 	"golang.org/x/sync/semaphore"
 )
 

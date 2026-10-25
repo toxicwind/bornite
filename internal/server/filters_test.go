@@ -8,8 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/swaputil"
 	"github.com/tidwall/gjson"
 )
 

@@ -23,7 +23,7 @@ type CatalogProviderDef struct {
 	ModelsPath     string
 	NoModelsReason string
 	NoAuth         bool // auth === "none": no API key needed
-	RouterLocal    bool // TS-router-local concept; bornite skips these
+	RouterLocal    bool // TS-router-local concept; herd skips these
 	Enabled        bool
 }
 

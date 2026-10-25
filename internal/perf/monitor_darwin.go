@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/logmon"
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/load"
 	"github.com/shirou/gopsutil/v4/mem"

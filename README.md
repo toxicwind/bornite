@@ -1,19 +1,19 @@
-# Bornite
+# Herd
 
 > 🗺️ Part of [**the ranch**](https://github.com/toxicwind/ranch) — the whole inference estate, one map.
 
 > **Orchestrate fleets of LLM inference engines. Zero downtime, zero friction.**  
-> Canonical Lineage: **[toxicwind/bornite](https://github.com/toxicwind/bornite)** & **[toxicwind/bornite](https://github.com/toxicwind/bornite)** (Upstream: [mostlygeek/bornite](https://github.com/mostlygeek/bornite))
+> Canonical Lineage: **[toxicwind/herd](https://github.com/toxicwind/herd)** & **[toxicwind/herd](https://github.com/toxicwind/herd)** (Upstream: [mostlygeek/herd](https://github.com/toxicwind/bornite))
 
-[![CI](https://github.com/toxicwind/bornite/actions/workflows/go-ci.yml/badge.svg)](https://github.com/toxicwind/bornite/actions)
-[![CI (Windows)](https://github.com/toxicwind/bornite/actions/workflows/go-ci-windows.yml/badge.svg)](https://github.com/toxicwind/bornite/actions)
+[![CI](https://github.com/toxicwind/herd/actions/workflows/go-ci.yml/badge.svg)](https://github.com/toxicwind/herd/actions)
+[![CI (Windows)](https://github.com/toxicwind/herd/actions/workflows/go-ci-windows.yml/badge.svg)](https://github.com/toxicwind/herd/actions)
 [![License: SOL / MIT](https://img.shields.io/badge/License-SOL%20v1.0%20%2F%20MIT-blue.svg)](./LICENSE.md)
 
 ---
 
 ## 🔱 Estate Fleet Orchestration (75 Models via AST Matrix)
 
-Bornite is the high-performance inference gateway and model router for the Estate Stack. It transforms single-model hot-swapping into multi-tier fleet orchestration across local hardware (NVIDIA RTX 3090 24GB CUDA 8.6 + AMD Ryzen 7 8700F Zen 4 AVX-512) and remote endpoints.
+Herd is the high-performance inference gateway and model router for the Estate Stack. It transforms single-model hot-swapping into multi-tier fleet orchestration across local hardware (NVIDIA RTX 3090 24GB CUDA 8.6 + AMD Ryzen 7 8700F Zen 4 AVX-512) and remote endpoints.
 
 - ✅ Easy to deploy and configure: one binary, one configuration file. no external dependencies
 - ✅ On-demand model switching for many local AI servers (llama.cpp + forks, vllm, stable-diffusion.cpp, audio.cpp, ComfyUI, etc.)
@@ -24,8 +24,8 @@ Bornite is the high-performance inference gateway and model router for the Estat
   - `v1/responses`
   - `v1/embeddings`
   - `v1/models` - list available models
-  - `v1/audio/speech` ([#36](https://github.com/mostlygeek/bornite/issues/36))
-  - `v1/audio/transcriptions` ([docs](https://github.com/mostlygeek/bornite/issues/41#issuecomment-2722637867))
+  - `v1/audio/speech` ([#36](https://github.com/toxicwind/bornite/issues/36))
+  - `v1/audio/transcriptions` ([docs](https://github.com/toxicwind/bornite/issues/41#issuecomment-2722637867))
   - `v1/audio/voices`
   - `v1/images/generations`
   - `v1/images/edits`
@@ -44,12 +44,12 @@ Bornite is the high-performance inference gateway and model router for the Estat
   - `/sdapi/v1/loras` - requires `model` in request body to fetch the correct loras
 - ✅ [audio.cpp](https://github.com/0xShug0/audio.cpp) supported [extra endpoints](https://github.com/0xShug0/audio.cpp/blob/main/app/server/README.md#post-v1tasksrun)
   - `/audioapi/v1/tasks/run`
-- ✅ `/comfyui/` - ComfyUI custom endpoint ([#1001](https://github.com/mostlygeek/bornite/issues/1001)) for more reliable swapping
-- ✅ bornite API
+- ✅ `/comfyui/` - ComfyUI custom endpoint ([#1001](https://github.com/toxicwind/bornite/issues/1001)) for more reliable swapping
+- ✅ herd API
   - `/ui` - web UI
-  - `/upstream/:model_id` - direct access to upstream server ([demo](https://github.com/mostlygeek/bornite/pull/31))  
-  - `/running` - list currently running models ([#61](https://github.com/mostlygeek/bornite/issues/61))
-  - `POST /api/models/unload` - manually unload all running models ([#58](https://github.com/mostlygeek/bornite/issues/58))
+  - `/upstream/:model_id` - direct access to upstream server ([demo](https://github.com/toxicwind/bornite/pull/31))  
+  - `/running` - list currently running models ([#61](https://github.com/toxicwind/bornite/issues/61))
+  - `POST /api/models/unload` - manually unload all running models ([#58](https://github.com/toxicwind/bornite/issues/58))
   - `POST /api/models/unload/:model_id` - unload a specific model
   - `GET /api/profiles` - list configured profiles and the active selection
   - `PUT /api/profiles/active` - activate a profile or select none
@@ -66,15 +66,15 @@ Bornite is the high-performance inference gateway and model router for the Estat
 - ✅ API Key support - define keys to restrict access to API endpoints
 - ✅ Customization
   - Switch model ID routing at runtime with profiles
-  - Run concurrent models with a custom DSL swap matrix ([#643](https://github.com/mostlygeek/bornite/issues/643))
+  - Run concurrent models with a custom DSL swap matrix ([#643](https://github.com/toxicwind/bornite/issues/643))
   - Automatic unloading of models after timeout by setting a `ttl`
   - Docker and Podman support using `cmd` and `cmdStop` together
-  - Preload models on startup with `hooks` ([#235](https://github.com/mostlygeek/bornite/pull/235))
+  - Preload models on startup with `hooks` ([#235](https://github.com/toxicwind/bornite/pull/235))
   - Apply filters to requests to control inference with `stripParams`, `setParams` and `setParamsByID`
 
 ### Core Capabilities Matrix
 
-| Capability | Standard Hot-Swap | Bornite Estate Orchestrator |
+| Capability | Standard Hot-Swap | Herd Estate Orchestrator |
 |---|---|---|
 | **Model Fleet** | 1 model active | **75 models routed via AST Matrix** |
 | **Connection Handling** | Drop connection on swap | **Zero-downtime SSE keep-alive** |
@@ -89,7 +89,7 @@ Bornite is the high-performance inference gateway and model router for the Estat
 
 ```mermaid
 graph TD
-    A[Client Request] --> B[Bornite Router :25100]
+    A[Client Request] --> B[Herd Router :25100]
     B --> C{AST Matrix Classifier}
     C -->|Fast / Reasoning| D[beellama-cpp :25001 - EXAONE 1.2B]
     C -->|Defrag / Fit-Margin| E[ik-llama-cpp :25002 - Heretic 27B]
@@ -126,8 +126,8 @@ graph TD
 
 ```bash
 # Build with Zen 4 AVX-512 and maximal Go compiler flags
-go build -v -ldflags="-s -w" -o bornite ./cmd
-./bornite --config /home/toxic/estate/config/bornite.yaml
+go build -v -ldflags="-s -w" -o herd ./cmd
+./herd --config /home/toxic/estate/config/herd.yaml
 ```
 The main build entry is `scripts/mise-build.sh` — it submits the canonical
 build+test (`go build ./... && go test -short -count=1 ./internal/...`, matching
@@ -140,8 +140,8 @@ the Makefile `test` target) directly through mise. Eligible task artifacts resto
 (The `ui/` frontend build, `make ui`, is a separate release step and is not part
 of the wired build.)
 
-Note: run the script with the direct bun binary — `bornite/mise.toml` is not
-mise-trusted, and the `bun` mise shim silently no-ops inside `bornite/`:
+Note: run the script with the direct bun binary — `herd/mise.toml` is not
+mise-trusted, and the `bun` mise shim silently no-ops inside `herd/`:
 
 ```sh
 /home/toxic/.bun/bin/./scripts/mise-build.sh
@@ -155,17 +155,17 @@ more examples
 
 ```shell
 # pull latest images per platform
-docker pull ghcr.io/mostlygeek/bornite:cpu
-docker pull ghcr.io/mostlygeek/bornite:cuda
-docker pull ghcr.io/mostlygeek/bornite:vulkan
-docker pull ghcr.io/mostlygeek/bornite:intel
-docker pull ghcr.io/mostlygeek/bornite:musa
+docker pull ghcr.io/mostlygeek/herd:cpu
+docker pull ghcr.io/mostlygeek/herd:cuda
+docker pull ghcr.io/mostlygeek/herd:vulkan
+docker pull ghcr.io/mostlygeek/herd:intel
+docker pull ghcr.io/mostlygeek/herd:musa
 
-# tagged bornite, platform and llama-server version images
-docker pull ghcr.io/mostlygeek/bornite:v166-cuda-b6795
+# tagged herd, platform and llama-server version images
+docker pull ghcr.io/mostlygeek/herd:v166-cuda-b6795
 
 # non-root cuda
-docker pull ghcr.io/mostlygeek/bornite:cuda-non-root
+docker pull ghcr.io/mostlygeek/herd:cuda-non-root
 
 ```
 
@@ -174,44 +174,44 @@ docker pull ghcr.io/mostlygeek/bornite:cuda-non-root
 ### Homebrew Install (macOS/Linux)
 
 ```shell
-brew tap mostlygeek/bornite
-brew install bornite
-bornite --config path/to/config.yaml --listen localhost:8080
+brew tap mostlygeek/herd
+brew install herd
+herd --config path/to/config.yaml --listen localhost:8080
 ```
 
 ### MacPorts (macOS)
 
 > [!NOTE]
-> Maintained by MacPorts community - [bornite port](https://ports.macports.org/port/bornite). It is not an official part of bornite.
+> Maintained by MacPorts community - [herd port](https://ports.macports.org/port/herd). It is not an official part of herd.
 
 ```shell
-sudo port install bornite
-bornite --config path/to/config.yaml --listen localhost:8080
+sudo port install herd
+herd --config path/to/config.yaml --listen localhost:8080
 ```
 
 ### WinGet Install (Windows)
 
 > [!NOTE]
-> WinGet is maintained by community contributor [Dvd-Znf](https://github.com/Dvd-Znf) ([#327](https://github.com/mostlygeek/bornite/issues/327)). It is not an official part of bornite.
+> WinGet is maintained by community contributor [Dvd-Znf](https://github.com/Dvd-Znf) ([#327](https://github.com/toxicwind/bornite/issues/327)). It is not an official part of herd.
 
 ```shell
 # install
-C:\> winget install bornite
+C:\> winget install herd
 
 # upgrade
-C:\> winget upgrade bornite
+C:\> winget upgrade herd
 ```
 
 ### Pre-built Binaries
 
-Binaries are available on the [release](https://github.com/mostlygeek/bornite/releases) page for Linux, Mac, Windows and FreeBSD.
+Binaries are available on the [release](https://github.com/toxicwind/bornite/releases) page for Linux, Mac, Windows and FreeBSD.
 
 ### Building from source
 
 1. Building requires Go and Node.js (for UI).
-1. `git clone https://github.com/mostlygeek/bornite.git`
+1. `git clone https://github.com/toxicwind/bornite.git`
 1. `make clean all`
-1. look in the `build/` subdirectory for the bornite binary
+1. look in the `build/` subdirectory for the herd binary
 
 ## Configuration
 
@@ -251,7 +251,7 @@ the [knowledge base](docs/kb/) for focused guides on the features people ask abo
 most.
 
 You can also just ask. The Playground's **Docs** tab is an agent that calls
-bornite's own documentation tools and answers questions about your
+herd's own documentation tools and answers questions about your
 configuration using the real text of `config.example.yaml` and the knowledge
 base, running entirely on a local model. Pick a tool-capable model in
 **Playground → Docs** and ask away — see
@@ -262,35 +262,35 @@ Those same tools are served as an MCP endpoint at `/api/mcp`, so any MCP client
 can ask about your configuration too. See
 [Connecting an MCP client](docs/kb/guides/api-integration/mcp-endpoint.md).
 
-## How does bornite work?
+## How does herd work?
 
-When a request is made to an OpenAI compatible endpoint, bornite will extract the `model` value and load the appropriate server configuration to serve it. If the wrong upstream server is running, it will be replaced with the correct one. This is where the "swap" part comes in. The upstream server is automatically swapped to handle the request correctly.
+When a request is made to an OpenAI compatible endpoint, herd will extract the `model` value and load the appropriate server configuration to serve it. If the wrong upstream server is running, it will be replaced with the correct one. This is where the "swap" part comes in. The upstream server is automatically swapped to handle the request correctly.
 
-In the most basic configuration bornite handles one model at a time. For more advanced use cases, using a `matrix` allows multiple models to be loaded at the same time. You have complete control over how your system resources are used.
+In the most basic configuration herd handles one model at a time. For more advanced use cases, using a `matrix` allows multiple models to be loaded at the same time. You have complete control over how your system resources are used.
 
 ## Reverse Proxy Configuration (nginx)
 
-If you deploy bornite behind nginx, disable response buffering for streaming endpoints. By default, nginx buffers responses which breaks Server‑Sent Events (SSE) and streaming chat completion. ([#236](https://github.com/mostlygeek/bornite/issues/236))
+If you deploy herd behind nginx, disable response buffering for streaming endpoints. By default, nginx buffers responses which breaks Server‑Sent Events (SSE) and streaming chat completion. ([#236](https://github.com/toxicwind/bornite/issues/236))
 
 Recommended nginx configuration snippets:
 
 ```nginx
 # SSE for UI events/logs
 location /api/events {
-    proxy_pass http://your-bornite-backend;
+    proxy_pass http://your-herd-backend;
     proxy_buffering off;
     proxy_cache off;
 }
 
 # Streaming chat completions (stream=true)
 location /v1/chat/completions {
-    proxy_pass http://your-bornite-backend;
+    proxy_pass http://your-herd-backend;
     proxy_buffering off;
     proxy_cache off;
 }
 ```
 
-As a safeguard, bornite also sets `X-Accel-Buffering: no` on SSE responses. However, explicitly disabling `proxy_buffering` at your reverse proxy is still recommended for reliable streaming behavior.
+As a safeguard, herd also sets `X-Accel-Buffering: no` on SSE responses. However, explicitly disabling `proxy_buffering` at your reverse proxy is still recommended for reliable streaming behavior.
 
 ## Monitoring Logs on the CLI
 
@@ -301,10 +301,10 @@ $ curl http://host/logs
 # streams combined logs
 curl -Ns http://host/logs/stream
 
-# stream bornite's proxy status logs
+# stream herd's proxy status logs
 curl -Ns http://host/logs/stream/proxy
 
-# stream logs from upstream processes that bornite loads
+# stream logs from upstream processes that herd loads
 curl -Ns http://host/logs/stream/upstream
 
 # stream logs only from a specific model
@@ -319,7 +319,7 @@ curl -Ns 'http://host/logs/stream?no-history'
 
 ## Do I need to use llama.cpp's server (llama-server)?
 
-Any OpenAI compatible server would work. bornite was originally designed for llama-server and it is the best supported.
+Any OpenAI compatible server would work. herd was originally designed for llama-server and it is the best supported.
 
 For Python based inference servers like vllm or tabbyAPI it is recommended to run them via podman or docker. This provides clean environment isolation as well as responding correctly to `SIGTERM` signals for proper shutdown.
 
@@ -347,7 +347,7 @@ AstMatrix provides intelligent routing to cloud LLM providers with production-gr
 
 | Provider | Base URL | Free Tier | Models |
 |----------|----------|-----------|--------|
-| bornite | http://127.0.0.1:25100/v1 | ✓ | local-fast, local-quality, local-longctx |
+| herd | http://127.0.0.1:25100/v1 | ✓ | local-fast, local-quality, local-longctx |
 | openrouter | https://openrouter.ai/api/v1 | | openrouter/auto |
 | nvidia | https://integrate.api.nvidia.com/v1 | ✓ | llama-3.1-nemotron-70b |
 | groq | https://api.groq.com/openai/v1 | ✓ | llama-3.1-70b-versatile |

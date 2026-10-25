@@ -1,9 +1,9 @@
 package server
 
 import (
-	"github.com/mostlygeek/bornite/internal/chain"
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/chain"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/swaputil"
 	"net/http"
 )
 
@@ -28,7 +28,7 @@ func CreateAuthMiddleware(cfg config.Config) chain.Middleware {
 				}
 			}
 			if !valid {
-				w.Header().Set("WWW-Authenticate", `Basic realm="bornite"`)
+				w.Header().Set("WWW-Authenticate", `Basic realm="herd"`)
 				swaputil.SendResponse(w, r, http.StatusUnauthorized, "unauthorized: invalid or missing API key")
 				return
 			}

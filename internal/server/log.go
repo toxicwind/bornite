@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/chain"
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/logmon"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/chain"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/swaputil"
 )
 
 // NewLoggers builds the proxy, upstream, and combined (mux) log monitors,

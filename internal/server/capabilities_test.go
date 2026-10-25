@@ -11,12 +11,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mostlygeek/bornite/internal/capcompat"
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/event"
-	"github.com/mostlygeek/bornite/internal/process"
-	"github.com/mostlygeek/bornite/internal/store"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/capcompat"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/event"
+	"github.com/toxicwind/bornite/internal/process"
+	"github.com/toxicwind/bornite/internal/store"
+	"github.com/toxicwind/bornite/internal/swaputil"
 )
 
 // llamaServerProps is a /props body shaped like llama-server's, for a model

@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/event"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/event"
+	"github.com/toxicwind/bornite/internal/swaputil"
 )
 
 func TestProcessCommand_EmitsStateChangeEvents(t *testing.T) {

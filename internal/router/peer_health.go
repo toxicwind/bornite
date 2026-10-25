@@ -1,6 +1,6 @@
 package router
 
-// Event-driven per-peer health state machine for the bornite router.
+// Event-driven per-peer health state machine for the herd router.
 //
 // Design notes (borrowed, not invented):
 //   - The state discipline (closed / half-open / open, two-step admit-then-report,
@@ -20,7 +20,7 @@ package router
 // the next real request is admitted as a single-flight probe (checked lazily at
 // request time). Concurrent requests while a probe is in flight are rejected.
 //
-// Outcome classes reuse the bornite reliability taxonomy: 402-not-entitled,
+// Outcome classes reuse the herd reliability taxonomy: 402-not-entitled,
 // 404-dead-id, 429-throttled, 200-empty, 403-refused, plus 5xx, transport
 // failures, success, and client-cancelled (neutral).
 
@@ -34,12 +34,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/logmon"
 	"github.com/tidwall/gjson"
 )
 
-// OutcomeClass is one bucket of the bornite reliability taxonomy, observed at the
+// OutcomeClass is one bucket of the herd reliability taxonomy, observed at the
 // peer binding point.
 type OutcomeClass string
 

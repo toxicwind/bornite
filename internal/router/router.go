@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/logmon"
-	"github.com/mostlygeek/bornite/internal/process"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/process"
+	"github.com/toxicwind/bornite/internal/swaputil"
 )
 
 var (

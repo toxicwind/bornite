@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/logmon"
 )
 
 func TestServer_CaptureCompressRoundtrip(t *testing.T) {

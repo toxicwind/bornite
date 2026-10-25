@@ -1,11 +1,12 @@
 package config
 
 import (
+	"strings"
 	"fmt"
 	"net/url"
 	"sort"
 
-	"github.com/mostlygeek/bornite/internal/tailcat"
+	"github.com/toxicwind/bornite/internal/tailcat"
 )
 
 type PeerDictionaryConfig map[string]PeerConfig
@@ -157,18 +158,31 @@ func ValidatePeerNamespace(c Config) error {
 }
 
 func (c *PeerConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	// Probe the proxy scheme before filling defaults: a tailcat peer can
+	// spend minutes loading a remote model before sending response headers,
+	// so it gets a bounded 300s response-header timeout; other peers keep
+	// the historical 60s.
+	var probe rawPeerConfig
+	if err := unmarshal(&probe); err != nil {
+		return err
+	}
+	responseHeaderDefault := 60
+	if u, err := url.Parse(probe.Proxy); err == nil && strings.EqualFold(u.Scheme, "tailcat") {
+		responseHeaderDefault = 300
+	}
+
 	defaults := rawPeerConfig{
 		Proxy:   "",
 		ApiKey:  "",
 		Models:  []string{},
 		Filters: Filters{},
 
-		// mostly matches http.DefaultTransport but with a 60s ResponseHeader timeout
-		// to match the pre PR #619 functionality
+		// Mostly matches http.DefaultTransport. HTTP peers retain the 60s
+		// response-header timeout; tailcat peers get 300s (ported from agele).
 		Timeouts: TimeoutsConfig{
 			Connect:        30,
 			KeepAlive:      30,
-			ResponseHeader: 60,
+			ResponseHeader: responseHeaderDefault,
 			TLSHandshake:   10,
 			ExpectContinue: 1,
 			IdleConn:       90,

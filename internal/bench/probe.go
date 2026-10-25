@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-// Model is a single model returned by the bornite /v1/models endpoint.
+// Model is a single model returned by the herd /v1/models endpoint.
 type Model struct {
 	ID      string `json:"id"`
 	Object  string `json:"object"`
@@ -32,8 +32,8 @@ type ModelsResponse struct {
 }
 
 // sharedClient returns a *http.Client tuned for short, parallel probes
-// against a single bornite instance. The Transport is the same shape used
-// by internal/flock/router.go so the bornite proxy is exercised the
+// against a single herd instance. The Transport is the same shape used
+// by internal/flock/router.go so the herd proxy is exercised the
 // same way end-to-end.
 func sharedClient(timeout time.Duration) *http.Client {
 	return &http.Client{
@@ -47,7 +47,7 @@ func sharedClient(timeout time.Duration) *http.Client {
 	}
 }
 
-// Discover fetches all models from the bornite /v1/models endpoint.
+// Discover fetches all models from the herd /v1/models endpoint.
 // Returns the model IDs sorted lexicographically.
 func Discover(ctx context.Context, baseURL string) ([]string, error) {
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)

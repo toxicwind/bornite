@@ -107,7 +107,7 @@ func (iq *ImmediateQuarantine) AllowCanary(provider string) bool {
 	if time.Now().Before(e.canaryAt) {
 		return false
 	}
-	// Grant canary: push next canary out to prevent thundering bornite
+	// Grant canary: push next canary out to prevent thundering herd
 	e.canaryAt = time.Now().Add(iq.canaryDelay)
 	return true
 }

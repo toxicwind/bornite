@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/config"
 )
 
 func TestAuth_SanitizeAccessControlRequestHeaders(t *testing.T) {

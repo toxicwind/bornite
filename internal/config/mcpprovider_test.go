@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/bornite/internal/mcptools"
+	"github.com/toxicwind/bornite/internal/mcptools"
 )
 
 const configProviderFixture = `

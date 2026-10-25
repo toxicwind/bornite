@@ -5,10 +5,15 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/mostlygeek/bornite/internal/tailcat"
+	"github.com/toxicwind/bornite/internal/tailcat"
 )
 
 const TailcatEphemeralKey = "ephemeral"
+
+// TailcatAllowAll is the wildcard that allows any tailcat client.
+// Ported from the agele tree during the bornite union: agele's
+// validator accepted it, herd's did not.
+const TailcatAllowAll = "*"
 
 // TailcatConfig configures the private Tailcat listener and its HTTP policy.
 // The listener identity comes from the startup-only -listen-tailcat flag.
@@ -66,12 +71,16 @@ func validateTailcatConfig(cfg *Config) error {
 		seenAllow := make(map[string]struct{}, len(tc.Allow))
 		allowedClients := make([]string, 0, len(tc.Allow))
 		for i, raw := range tc.Allow {
-			canonical, err := tailcat.ValidateNodePublic(raw)
-			if err != nil {
-				return fmt.Errorf("tailcat.allow[%d]: invalid node public key: %w", i, err)
-			}
-			if canonical != raw {
-				return fmt.Errorf("tailcat.allow[%d]: must be a full canonical nodekey: public key", i)
+			canonical := raw
+			if raw != TailcatAllowAll {
+				var err error
+				canonical, err = tailcat.ValidateNodePublic(raw)
+				if err != nil {
+					return fmt.Errorf("tailcat.allow[%d]: invalid node public key: %w", i, err)
+				}
+				if canonical != raw {
+					return fmt.Errorf("tailcat.allow[%d]: must be a full canonical nodekey: public key", i)
+				}
 			}
 			if _, exists := seenAllow[canonical]; exists {
 				continue

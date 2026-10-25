@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/mostlygeek/bornite/internal/router"
+	"github.com/toxicwind/bornite/internal/router"
 )
 
 // handlePeerHealth serves the per-peer self-healing state: healthy, degraded,

@@ -1,4 +1,4 @@
-// Package docagent indexes bornite's own documentation so it can be
+// Package docagent indexes herd's own documentation so it can be
 // served to an LLM through the /api/mcp endpoint.
 //
 // Everything retrievable is a "doc" with an id in one flat namespace:

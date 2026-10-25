@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/toxicwind/bornite/internal/store"
 )
 
 // newCacheStore returns an in-memory store with its cache repository.

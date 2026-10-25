@@ -53,7 +53,7 @@ func LoadConfigFromReader(r io.Reader) (Config, error) {
 		}}},
 	}
 	// yaml.v3's Node.Decode silently discards any key the target struct does
-	// not declare. That is not a cosmetic problem: bornite.yaml carried a
+	// not declare. That is not a cosmetic problem: herd.yaml carried a
 	// top-level `aliases:` block for months that parsed cleanly, produced no
 	// warning, and was never served by anything. The only yaml:"aliases" tag
 	// in the tree is on ModelConfig (models.<id>.aliases), so the block was
@@ -96,7 +96,7 @@ func LoadConfigFromReader(r io.Reader) (Config, error) {
 		config.Security = &SecurityConfig{}
 	}
 	if err = config.Security.CORS.Validate(); err != nil {
-		return Config{}, fmt.Errorf("security.cors: %w", err)
+		return Config{}, &corsValidationError{err: fmt.Errorf("security.cors: %w", err)}
 	}
 
 	if config.StartPort < 1 {
@@ -586,7 +586,7 @@ func knownTopLevelKeys() map[string]struct{} {
 // This exists because yaml.v3 drops such keys silently: a config can name
 // `aliases:` at the top level, parse without error, and have the block
 // discarded at every load — which is how a four-model alias block sat in
-// bornite.yaml serving nothing for months while its names appeared to work
+// herd.yaml serving nothing for months while its names appeared to work
 // because they were declared again under `models:`.
 //
 // Only the top level is checked on purpose. Strictness at every depth is not
@@ -612,6 +612,6 @@ func rejectUnknownTopLevelKeys(node *yaml.Node) error {
 		return nil
 	}
 	sort.Strings(unknown)
-	return fmt.Errorf("unknown top-level config key(s): %s (bornite ignores keys it does not know; "+
+	return fmt.Errorf("unknown top-level config key(s): %s (herd ignores keys it does not know; "+
 		"check for a typo, or a feature this build does not support)", strings.Join(unknown, ", "))
 }

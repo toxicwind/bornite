@@ -1,27 +1,27 @@
-# Bornite (bornite) Edge-Case Fallback
+# Herd (herd) Edge-Case Fallback
 
 **Status:** Active as of 2026-09-30. Blessed binary sha256:
 `e1d70dd074bf6c1218ce45be5e2cf9ebb609cf7439d279989d2429c2f08e2e4e`
-Immutable copy: `/home/toxic/estate/projects/bornite/bornite.20260930-052800`
+Immutable copy: `/home/toxic/estate/projects/herd/herd.20260930-052800`
 
-## If bornite fails to start or dies
+## If herd fails to start or dies
 
-Bornite serves on `:25100`. The estate router (`:25104`) depends on it via
+Herd serves on `:25100`. The estate router (`:25104`) depends on it via
 `LLM_BASE_URL` (default `http://127.0.0.1:25100/v1`).
 
 ### Immediate fallback (no restart needed)
 
-Set the env override to bypass bornite and hit providers directly:
+Set the env override to bypass herd and hit providers directly:
 
 ```bash
 # On yote, for the router process environment:
 export LLM_BASE_URL="https://openrouter.ai/api/v1"
 # or
-export BORNITE_V1="https://openrouter.ai/api/v1"
+export HERD_V1="https://openrouter.ai/api/v1"
 ```
 
-The router reads `LLM_BASE_URL` first, then `BORNITE_V1`, then defaults to
-bornite `:25100`. Setting either env var reroutes around a dead bornite instantly.
+The router reads `LLM_BASE_URL` first, then `HERD_V1`, then defaults to
+herd `:25100`. Setting either env var reroutes around a dead herd instantly.
 Restart the router (`estate/router`) to pick up the change.
 
 ### Restore the binary (warden path)

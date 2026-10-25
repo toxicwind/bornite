@@ -1,20 +1,20 @@
 #!/bin/bash
-# Install vllm-wrapper - build from bornite source
+# Install vllm-wrapper - build from herd source
 # Usage: ./install-vllm-wrapper.sh [version]
 #   version: full commit hash, release version (e.g. "170"/"v170") or "latest" (default)
 #
-# vllm-wrapper is not part of the bornite release archives so it is compiled
-# from the same source revision the bornite binary was released from.
+# vllm-wrapper is not part of the herd release archives so it is compiled
+# from the same source revision the herd binary was released from.
 set -e
 
 VERSION="${1:-latest}"
-REPO="mostlygeek/bornite"
-SRC=/src/bornite
+REPO="mostlygeek/herd"
+SRC=/src/herd
 
 mkdir -p /install/bin
 
 # If a full commit hash is given, find the release tag that points to it. This
-# mirrors install-bornite.sh so both binaries come from the same revision.
+# mirrors install-herd.sh so both binaries come from the same revision.
 if echo "${VERSION}" | grep -qE '^[0-9a-f]{40}$'; then
     echo "=== Resolving commit ${VERSION:0:7} to release tag ==="
     TAG=$(git ls-remote --tags "https://github.com/${REPO}.git" 2>/dev/null \
@@ -33,7 +33,7 @@ VERSION="${VERSION#v}"
 
 # Resolve "latest" to the tag of the most recent release
 if [ "$VERSION" = "latest" ]; then
-    echo "=== Resolving latest bornite release ==="
+    echo "=== Resolving latest herd release ==="
     VERSION=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
         | grep '"tag_name"' | head -1 | cut -d'"' -f4 | sed 's/^v//')
     if [ -z "$VERSION" ]; then

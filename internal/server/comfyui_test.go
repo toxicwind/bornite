@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/process"
-	"github.com/mostlygeek/bornite/internal/swaputil"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/process"
+	"github.com/toxicwind/bornite/internal/swaputil"
 )
 
 func TestServer_HandleComfyUI(t *testing.T) {

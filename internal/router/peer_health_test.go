@@ -18,8 +18,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/shared"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/shared"
 )
 
 func testHealthConfig() config.HealthConfig {

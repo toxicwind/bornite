@@ -28,7 +28,7 @@ func TestNewState(t *testing.T) {
 	s := NewState()
 	assert.Equal(t, PhaseSeed, s.Phase.Current)
 	assert.Empty(t, s.Phase.History)
-	assert.Equal(t, "bornite", s.Context.Provider)
+	assert.Equal(t, "herd", s.Context.Provider)
 	assert.Equal(t, "http://127.0.0.1:25100/v1", s.Context.BaseURL)
 	assert.Equal(t, 8, s.Context.MaxConcurrency)
 	assert.Equal(t, 15, s.Context.ProbeTimeoutS)
@@ -117,7 +117,7 @@ func TestSafeFilename(t *testing.T) {
 	cases := []struct {
 		in, want string
 	}{
-		{"bornite/foo", "bornite-foo"},
+		{"herd/foo", "herd-foo"},
 		{"a:b", "a_b"},
 		{"1.2.3", "1-2-3"},
 		{"plain", "plain"},

@@ -1,7 +1,7 @@
-# Merge Decisions — bornite
+# Merge Decisions — herd
 
-- path: projects/bornite / estate-swap
-  ours: projects/bornite (github.com/mostlygeek/bornite)
+- path: projects/herd / estate-swap
+  ours: projects/herd (github.com/toxicwind/bornite)
   theirs: estate-swap (stale build output)
-  decision: survivor projects/bornite, archived estate-swap to ~/.recovery-archive/1790105065/estate-swap.tar.gz
-  reason: Single canonical source tree for bornite fork lives at projects/bornite; estate-swap contained only legacy binaries and build artifacts.
+  decision: survivor projects/herd, archived estate-swap to ~/.recovery-archive/1790105065/estate-swap.tar.gz
+  reason: Single canonical source tree for herd fork lives at projects/herd; estate-swap contained only legacy binaries and build artifacts.

@@ -1,4 +1,4 @@
-module github.com/mostlygeek/bornite
+module github.com/toxicwind/bornite
 
 go 1.27.1
 

@@ -2,8 +2,8 @@ package store_test
 
 import (
 	"context"
-	"github.com/mostlygeek/bornite/internal/store"
-	"github.com/mostlygeek/bornite/internal/store/sqlite"
+	"github.com/toxicwind/bornite/internal/store"
+	"github.com/toxicwind/bornite/internal/store/sqlite"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

@@ -1,6 +1,8 @@
 package config
 
 import (
+	"log"
+	"errors"
 	"fmt"
 	"os"
 	"sort"
@@ -183,6 +185,7 @@ func (c *ProfileConfig) UnmarshalYAML(value *yaml.Node) error {
 
 type Config struct {
 	GlobalConcurrencyLimit int             `yaml:"global_concurrency_limit" json:"global_concurrency_limit"`
+	Flock               *FlockConfig `yaml:"flock"`
 	Security               *SecurityConfig `yaml:"security" json:"security"`
 	Tailcat                *TailcatConfig  `yaml:"tailcat" json:"tailcat"`
 	tailcatEnabled         bool
@@ -294,7 +297,23 @@ func LoadConfig(path string) (Config, error) {
 		return Config{}, err
 	}
 	defer file.Close()
-	return LoadConfigFromReader(file)
+	cfg, err := LoadConfigFromReader(file)
+	if err != nil {
+		// A CORS block that fails validation must not fail the load: fall
+		// back to the last-known-good policy (persisted beside the config)
+		// so the server still starts.
+		var corsErr *corsValidationError
+		if !errors.As(err, &corsErr) {
+			return Config{}, err
+		}
+		return loadConfigWithCORSFallback(path, err)
+	}
+	// The CORS policy validated: remember it as the last known good so a
+	// future bad edit can fall back to it. Best-effort; never fatal.
+	if err := saveGoodCORS(path, cfg.Security.CORS); err != nil {
+		log.Printf("bornite: warning: could not persist last-known-good CORS policy: %v", err)
+	}
+	return cfg, nil
 }
 
 func AddDefaultGroupToConfig(config Config) Config {
@@ -330,4 +349,25 @@ func AddDefaultGroupToConfig(config Config) Config {
 	sort.Strings(defaultGroup.Members)
 	config.Groups[DEFAULT_GROUP_ID] = defaultGroup
 	return config
+}
+
+// FlockConfig points the local engine at the estate's cloud gateway
+// (the geode pen's rhodochrosite :25193) so local-flavoured requests
+// can be served by the multi-provider circuit.
+//
+// Ported from the agele tree during the bornite union — agele's
+// internal/server/flock_cloud.go needs it.
+type FlockConfig struct {
+	Enabled  bool              `yaml:"enabled"`
+	BaseURL  string            `yaml:"baseUrl"`
+	KeyEnv   string            `yaml:"keyEnv"`
+	ModelMap map[string]string `yaml:"modelMap"`
+}
+
+// Defaults returns the config with the local defaults applied.
+func (c *FlockConfig) Defaults() *FlockConfig {
+	if c == nil {
+		return &FlockConfig{}
+	}
+	return c
 }

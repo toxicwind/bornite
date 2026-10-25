@@ -117,7 +117,7 @@ func aliasTargetServable(providers map[string]*provider, prov, model string) boo
 // codingAlias maps friendly alias -> [provider, model] or nil for auto/fcm.
 // codingAlias is the merged alias table: the canonical generated aliases
 // (ProviderCatalogAliases — source of truth is the TS package) plus
-// bornite-local extras. Bornite-local wins on key collision.
+// herd-local extras. Herd-local wins on key collision.
 var codingAlias = func() map[string][2]string {
 	m := make(map[string][2]string, len(ProviderCatalogAliases)+len(herdLocalAliases))
 	for k, v := range ProviderCatalogAliases {
@@ -129,7 +129,7 @@ var codingAlias = func() map[string][2]string {
 	return m
 }()
 
-// herdLocalAliases are bornite-specific aliases with NO canonical equivalent.
+// herdLocalAliases are herd-specific aliases with NO canonical equivalent.
 // Canonical aliases live in ProviderCatalogAliases (generated from @toxicwind/pinax);
 // anything duplicated there was removed 2026-09-30 - this map holds only true extras:
 // strategy directives, local-role shortcuts, and extended-registry aliases
@@ -139,13 +139,13 @@ var herdLocalAliases = map[string][2]string{
 	"auto": {},
 	"fcm":  {},
 	// Local-first ranked roles
-	"fast":          {"bornite", "local-fast"},
-	"local-fast":    {"bornite", "local-fast"},
-	"quality":       {"bornite", "local-quality"},
-	"local-quality": {"bornite", "local-quality"},
-	"longctx":       {"bornite", "local-longctx"},
-	"local-longctx": {"bornite", "local-longctx"},
-	"local-auto":    {"bornite", "local-quality"},
+	"fast":          {"herd", "local-fast"},
+	"local-fast":    {"herd", "local-fast"},
+	"quality":       {"herd", "local-quality"},
+	"local-quality": {"herd", "local-quality"},
+	"longctx":       {"herd", "local-longctx"},
+	"local-longctx": {"herd", "local-longctx"},
+	"local-auto":    {"herd", "local-quality"},
 	// OpenRouter free aliases (verified working 2026-07-28)
 	"gpt-oss-20b": {"openrouter", "openai/gpt-oss-20b:free"},
 	// NVIDIA NIM aliases
@@ -162,12 +162,12 @@ var herdLocalAliases = map[string][2]string{
 // localPatterns matches known local GGUF model ID prefixes.
 var localPatterns = regexp.MustCompile(`^(beellama|mradermacher|jackrong|turboquant|ik_llama|ik_turboquant|holo|qwen/|gemma-4|exaone)`)
 
-// isLocalSwapModelId returns true for model IDs that should route to the local bornite.
+// isLocalSwapModelId returns true for model IDs that should route to the local herd.
 func isLocalSwapModelId(model string) bool {
 	if model == "" || model == "auto" || model == "fcm" {
 		return false
 	}
-	if target, ok := codingAlias[model]; ok && len(target) > 0 && target[0] == "bornite" {
+	if target, ok := codingAlias[model]; ok && len(target) > 0 && target[0] == "herd" {
 		return true
 	}
 	return localPatterns.MatchString(model)
@@ -185,13 +185,13 @@ func resolveModel(model string, providers map[string]*provider) (string, string)
 	}
 	// Check if it's a local GGUF model ID
 	if isLocalSwapModelId(model) {
-		return "bornite", model
+		return "herd", model
 	}
 	// Auto/fcm: search all providers by weighted ELO
 	if model == "auto" || model == "fcm" {
 		// Find first provider with a key and circuit ok
 		for pname, p := range providers {
-			if pname == "bornite" {
+			if pname == "herd" {
 				continue
 			}
 			if p.noAuth || os.Getenv(p.keyEnv) != "" {
@@ -200,7 +200,7 @@ func resolveModel(model string, providers map[string]*provider) (string, string)
 				}
 			}
 		}
-		return "bornite", "local-quality"
+		return "herd", "local-quality"
 	}
 	// Search provider model lists
 	for pname, p := range providers {
@@ -210,14 +210,14 @@ func resolveModel(model string, providers map[string]*provider) (string, string)
 			}
 		}
 	}
-	// Fallback: openrouter -> nvidia -> bornite
+	// Fallback: openrouter -> nvidia -> herd
 	if _, ok := providers["openrouter"]; ok {
 		return "openrouter", model
 	}
 	if _, ok := providers["nvidia"]; ok {
 		return "nvidia", model
 	}
-	return "bornite", "local-quality"
+	return "herd", "local-quality"
 }
 
 // isExplicit returns true if the model maps to a specific provider via coding aliases.

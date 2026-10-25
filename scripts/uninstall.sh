@@ -1,6 +1,6 @@
 #!/bin/sh
-# This script uninstalls bornite on Linux.
-# It removes the binary, systemd service, config.yaml (optional), and bornite user and group.
+# This script uninstalls herd on Linux.
+# It removes the binary, systemd service, config.yaml (optional), and herd user and group.
 
 set -eu
 
@@ -23,28 +23,28 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 configure_systemd() {
-    status "Stopping bornite service..."
-    $SUDO systemctl stop bornite
+    status "Stopping herd service..."
+    $SUDO systemctl stop herd
 
-    status "Disabling bornite service..."
-    $SUDO systemctl disable bornite
+    status "Disabling herd service..."
+    $SUDO systemctl disable herd
 }
 if available systemctl; then
     configure_systemd
 fi
 
-if available bornite; then
-    status "Removing bornite binary..."
-    $SUDO rm $(which bornite)
+if available herd; then
+    status "Removing herd binary..."
+    $SUDO rm $(which herd)
 fi
 
-if [ -f "/usr/share/bornite/config.yaml" ]; then
+if [ -f "/usr/share/herd/config.yaml" ]; then
     while true; do
-        printf "Delete config.yaml (/usr/share/bornite/config.yaml)? [y/N] " >&2
+        printf "Delete config.yaml (/usr/share/herd/config.yaml)? [y/N] " >&2
         read answer
         case "$answer" in
             [Yy]* ) 
-                $SUDO rm -r /usr/share/bornite
+                $SUDO rm -r /usr/share/herd
                 break
                 ;;
             [Nn]* | "" ) 
@@ -57,12 +57,12 @@ if [ -f "/usr/share/bornite/config.yaml" ]; then
     done
 fi
 
-if id bornite >/dev/null 2>&1; then
-    status "Removing bornite user..."
-    $SUDO userdel bornite
+if id herd >/dev/null 2>&1; then
+    status "Removing herd user..."
+    $SUDO userdel herd
 fi
 
-if getent group bornite >/dev/null 2>&1; then
-    status "Removing bornite group..."
-    $SUDO groupdel bornite
+if getent group herd >/dev/null 2>&1; then
+    status "Removing herd group..."
+    $SUDO groupdel herd
 fi

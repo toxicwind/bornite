@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/store"
+	"github.com/toxicwind/bornite/internal/store"
 )
 
 // cacheRepository implements store.CacheRepository over the cache table.

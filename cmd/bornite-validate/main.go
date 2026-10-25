@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/config"
 )
 
 // runValidate loads one config file, or every .yml/.yaml in a directory,

@@ -1,6 +1,6 @@
-// Package bench provides model probing and benchmarking for the bornite proxy.
+// Package bench provides model probing and benchmarking for the herd proxy.
 //
-// The bench orchestrator discovers models served by a bornite instance, probes
+// The bench orchestrator discovers models served by a herd instance, probes
 // each for liveness, classifies them as alive/dead, and updates the OMP
 // models.yml to disable inconsistent models. It is the first-party
 // alternative to external benchmark tooling.
@@ -97,7 +97,7 @@ func MirrorPath() string {
 func NewState() *State {
 	return &State{
 		Meta: map[string]any{
-			"project":         "bornite",
+			"project":         "herd",
 			"orchestrator_id": "main",
 		},
 		Phase: PhaseState{
@@ -106,7 +106,7 @@ func NewState() *State {
 			RetryCount: 0,
 		},
 		Context: Context{
-			Provider:       "bornite",
+			Provider:       "herd",
 			BaseURL:        "http://127.0.0.1:25100/v1",
 			MaxConcurrency: 8,
 			ProbeTimeoutS:  15,

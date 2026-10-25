@@ -271,8 +271,8 @@ func callOne(ctx context.Context, m *Matrix, provider, model string, body map[st
 		if resp.StatusCode == 404 {
 			// Report the 404 to the TS catalog brain (best-effort, async,
 			// never blocks routing). The quarantine decision lives in the TS
-			// package; bornite only reports the event. The TS side rewrites the
-			// live catalog file and bornite picks it up on its next read.
+			// package; herd only reports the event. The TS side rewrites the
+			// live catalog file and herd picks it up on its next read.
 			go reportServe404(provider, model)
 		}
 		return RouteResult{Status: resp.StatusCode, Provider: provider, Lat: lat, Err: string(errBody)}
@@ -496,7 +496,7 @@ func routeFree(ctx context.Context, m *Matrix, body map[string]interface{}, sess
 	model := getModel(body)
 	if isExplicit(model) {
 		p, mid := resolveModel(model, m.providers)
-		if strings.Contains(mid, ":free") || p == "bornite" {
+		if strings.Contains(mid, ":free") || p == "herd" {
 			r := callOne(ctx, m, p, mid, body)
 			if r.OK {
 				m.StickySet(session, p, mid)
@@ -516,8 +516,8 @@ func routeFree(ctx context.Context, m *Matrix, body map[string]interface{}, sess
 			}
 		}
 	}
-	if m.KeyOk("bornite") {
-		cands = append(cands, [2]string{"bornite", "local-quality"})
+	if m.KeyOk("herd") {
+		cands = append(cands, [2]string{"herd", "local-quality"})
 	}
 	if len(cands) == 0 {
 		return RouteResult{Status: 503, Err: "no_free_providers"}

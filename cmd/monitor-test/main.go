@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/logmon"
-	"github.com/mostlygeek/bornite/internal/perf"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/perf"
 )
 
 func printSysStat(s perf.SysStat) {

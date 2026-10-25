@@ -109,15 +109,15 @@ func (m *ModelsYML) ApplyAutofix(provider string, working, dead []string) (disab
 	return disabled, enabled
 }
 
-// EnsureHerdProvider idempotently inserts a bornite provider block pointing at
+// EnsureHerdProvider idempotently inserts a herd provider block pointing at
 // the local proxy. Safe to call when the file exists — does not overwrite
 // other providers.
 func (m *ModelsYML) EnsureHerdProvider(baseURL string) {
 	if m.Providers == nil {
 		m.Providers = map[string]ProviderConfig{}
 	}
-	if _, ok := m.Providers["bornite"]; !ok {
-		m.Providers["bornite"] = ProviderConfig{
+	if _, ok := m.Providers["herd"]; !ok {
+		m.Providers["herd"] = ProviderConfig{
 			BaseURL: baseURL,
 			API:     "openai-completions",
 			Auth:    "none",

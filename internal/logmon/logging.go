@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/event"
+	"github.com/toxicwind/bornite/internal/event"
 )
 
 const DataEventID = 0x04

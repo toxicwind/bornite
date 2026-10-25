@@ -1,7 +1,7 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
 language: 'go'
 layer: 'application'
-# Known pre-existing failures (bornite lane owns):
+# Known pre-existing failures (herd lane owns):
 # - internal/router: 4 integration tests for the peer-health ejection flow
 #   (TestPeerIntegration_*) — the health recording wiring was never completed.
 # - internal/config: 3 tailcat tests (TestConfig_TailcatValidation,

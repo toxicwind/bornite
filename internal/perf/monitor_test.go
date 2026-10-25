@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/logmon"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -9,9 +9,9 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/mostlygeek/bornite/internal/config"
-	"github.com/mostlygeek/bornite/internal/docagent"
-	"github.com/mostlygeek/bornite/internal/mcptools"
+	"github.com/toxicwind/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/docagent"
+	"github.com/toxicwind/bornite/internal/mcptools"
 )
 
 // mcpTestFS is a small stand-in for the repository layout.
@@ -407,8 +407,8 @@ func TestServer_APIMCP_Discover(t *testing.T) {
 	if result.Instructions == "" {
 		t.Error("instructions is empty")
 	}
-	if result.Meta.ServerInfo.Name != "bornite" {
-		t.Errorf("serverInfo.name = %q, want bornite", result.Meta.ServerInfo.Name)
+	if result.Meta.ServerInfo.Name != "herd" {
+		t.Errorf("serverInfo.name = %q, want herd", result.Meta.ServerInfo.Name)
 	}
 	if result.CacheScope != "public" {
 		t.Errorf("cacheScope = %q, want public", result.CacheScope)

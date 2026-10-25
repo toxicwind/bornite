@@ -51,8 +51,8 @@ func NewOpenRouterProvider() *OpenRouterProvider {
 			if p.apiKey != "" {
 				r.Out.Header.Set("Authorization", "Bearer "+p.apiKey)
 				r.Out.Header.Set("x-api-key", p.apiKey)
-				r.Out.Header.Set("HTTP-Referer", "https://github.com/toxicwind/bornite")
-				r.Out.Header.Set("X-Title", "Bornite estate-scripts")
+				r.Out.Header.Set("HTTP-Referer", "https://github.com/toxicwind/herd")
+				r.Out.Header.Set("X-Title", "Herd estate-scripts")
 			}
 		},
 		ModifyResponse: func(resp *http.Response) error {

@@ -7,4 +7,4 @@ BUILD_CMD=$(cat <<'BUILD'
 go build ./... && go test -short -count=1 ./internal/...
 BUILD
 )
-exec "$ROOT/scripts/mise-build.sh" "bornite" "$ROOT/mesh/router/bornite" "$BUILD_CMD"
+exec "$ROOT/scripts/mise-build.sh" "herd" "$ROOT/mesh/router/herd" "$BUILD_CMD"

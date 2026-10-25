@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/logmon"
+	"github.com/toxicwind/bornite/internal/logmon"
 )
 
 // TestLiveKimi tests against the real KIMI API sandbox

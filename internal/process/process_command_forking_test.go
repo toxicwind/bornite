@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/config"
 )
 
 // TestProcessCommand_StopForkingWrapper is a regression for the bug reported

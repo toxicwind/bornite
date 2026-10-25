@@ -26,7 +26,7 @@ func Detect(ctx context.Context, detectorVersion string) (HardwareSnapshot, erro
 			Scope:  CaptureScopeInferenceHost,
 			Method: CaptureMethodDetected,
 			Detector: &DetectorInfo{
-				Name:    "bornite",
+				Name:    "herd",
 				Version: detectorVersion,
 			},
 		},

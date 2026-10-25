@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	matrixdsl "github.com/mostlygeek/bornite/internal/matrix"
+	matrixdsl "github.com/toxicwind/bornite/internal/matrix"
 	"gopkg.in/yaml.v3"
 )
 

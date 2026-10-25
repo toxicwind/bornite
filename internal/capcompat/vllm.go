@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/config"
 )
 
 // vllmOwner is what vLLM reports in /v1/models.

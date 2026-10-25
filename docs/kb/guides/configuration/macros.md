@@ -88,7 +88,7 @@ macros:
   model_dir: "${env.MODEL_DIR}"
 
 apiKeys:
-  - "${env.BORNITE_KEY}"
+  - "${env.HERD_KEY}"
 ```
 
 Two things to know:

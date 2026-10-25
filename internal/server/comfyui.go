@@ -3,7 +3,7 @@ package server
 import (
 	"regexp"
 
-	"github.com/mostlygeek/bornite/internal/config"
+	"github.com/toxicwind/bornite/internal/config"
 )
 
 // comfyUIIgnorePaths are the path patterns that ComfyUI serves as static
