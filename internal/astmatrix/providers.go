@@ -130,7 +130,7 @@ var codingAlias = func() map[string][2]string {
 }()
 
 // herdLocalAliases are bornite-specific aliases with NO canonical equivalent.
-// Canonical aliases live in ProviderCatalogAliases (generated from @toxicwind/pinax);
+// Canonical aliases live in ProviderCatalogAliases (generated from @toxicwind/mimetite);
 // anything duplicated there was removed 2026-09-30 - this map holds only true extras:
 // strategy directives, local-role shortcuts, and extended-registry aliases
 // (whose providers live in registry.go, not the core catalog).
