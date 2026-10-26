@@ -13,8 +13,12 @@ from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-# ─── Load secrets from ~/.secrets ──────────────────────────────────────────
-def _load_secrets() -> None:
+# ─── Load secrets from ~/# Secrets live in the secretsmith keyring (SSOT); ~/.secrets is deleted (2026-10-26).
+import os as _os, subprocess as _sp, shlex as _sh
+for _line in _sp.run(["secretsmith","env"], capture_output=True, text=True).stdout.splitlines():
+    if "=" in _line and _line.split("=",1)[0].isidentifier():
+        _k, _v = _line.split("=", 1)
+        _os.environ.setdefault(_k, _sh.split(_v)[0] if _v.startswith(chr(39)) else _v)_secrets() -> None:
     for path in (os.path.expanduser("~/.secrets"), "/home/toxic/.secrets"):
         try:
             with open(path) as f:

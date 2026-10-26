@@ -40,8 +40,16 @@ function loadEnvFile(path: string): void {
     console.error(`[matrix] loadEnvFile ${path}:`, e);
   }
 }
-loadEnvFile(`${homedir()}/.secrets`);
-loadEnvFile("/home/toxic/.secrets");
+// Secrets live in the secretsmith keyring (SSOT); ~/.secrets is deleted (2026-10-26).
+try { const _kr = Bun.spawnSync(["secretsmith","env"]).stdout.toString();
+  for (const l of _kr.split("
+")) { const i = l.indexOf("=");
+    if (i > 0 && /^[A-Za-z_][A-Za-z0-9_]*$/.test(l.slice(0, i))) process.env[l.slice(0, i)] ??= l.slice(i + 1).replace(/^'|'$/g, ""); } } catch {}
+// Secrets live in the secretsmith keyring (SSOT); ~/.secrets is deleted (2026-10-26).
+try { const _kr = Bun.spawnSync(["secretsmith","env"]).stdout.toString();
+  for (const l of _kr.split("
+")) { const i = l.indexOf("=");
+    if (i > 0 && /^[A-Za-z_][A-Za-z0-9_]*$/.test(l.slice(0, i))) process.env[l.slice(0, i)] ??= l.slice(i + 1).replace(/^'|'$/g, ""); } } catch {}
 loadEnvFile("/home/toxic/sovereign/config/ports.env");
 loadEnvFile("/home/toxic/sovereign/.env.local");
 

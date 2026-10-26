@@ -10,7 +10,8 @@
     "go-mod": "go mod download && go mod tidy",
     "full-install": "go mod download",
     "docker-build": "docker build -t bornite ./docker/unified",
-    "benchmark": "go test -bench=. ./internal/bench/..."
+    "benchmark": "go test -bench=. ./internal/bench/...",
+    "resect": "resect"
   },
   "dependencies": {},
   "devDependencies": {
