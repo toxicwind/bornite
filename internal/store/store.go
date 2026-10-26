@@ -1,4 +1,4 @@
-// Package store defines the data access contracts for herd.
+// Package store defines the data access contracts for bornite.
 package store
 
 import (

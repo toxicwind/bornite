@@ -28,7 +28,7 @@ func CreateAuthMiddleware(cfg config.Config) chain.Middleware {
 				}
 			}
 			if !valid {
-				w.Header().Set("WWW-Authenticate", `Basic realm="herd"`)
+				w.Header().Set("WWW-Authenticate", `Basic realm="bornite"`)
 				swaputil.SendResponse(w, r, http.StatusUnauthorized, "unauthorized: invalid or missing API key")
 				return
 			}

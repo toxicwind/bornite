@@ -42,7 +42,7 @@ func validateStorePath(path string) error {
 }
 
 func checkDirWritableWindows(dir string) error {
-	tmp, err := os.CreateTemp(dir, ".herd-write-test-*")
+	tmp, err := os.CreateTemp(dir, ".bornite-write-test-*")
 	if err != nil {
 		return err
 	}

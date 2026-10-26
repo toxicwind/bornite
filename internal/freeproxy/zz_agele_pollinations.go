@@ -6,7 +6,7 @@ import (
 )
 
 // agele's streaming-fallback recorder, ported during the bornite
-// union. herd's pollinations.go (the live one) does not carry it.
+// union. bornite's pollinations.go (the live one) does not carry it.
 // bufferingRecorder captures the full response (status, headers, body) without
 // writing to the underlying ResponseWriter. Call replay(w) to flush it after
 // deciding whether a fallback is needed. Used for the cache path where we

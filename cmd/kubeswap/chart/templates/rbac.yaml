@@ -2,26 +2,26 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "herd.fullname" . }}
+  name: {{ include "bornite.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "herd.labels" . | nindent 4 }}
+    {{- include "bornite.labels" . | nindent 4 }}
 rules:
   {{- toYaml .Values.rbac.rules | nindent 2 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ include "herd.fullname" . }}
+  name: {{ include "bornite.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "herd.labels" . | nindent 4 }}
+    {{- include "bornite.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ include "herd.fullname" . }}
+  name: {{ include "bornite.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "herd.serviceAccountName" . }}
+    name: {{ include "bornite.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 {{- end }}

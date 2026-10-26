@@ -1,5 +1,5 @@
 // probe_test.go — full coverage for the bench probing path.
-// Uses an httptest server to fake the herd /v1/models + /v1/chat/completions.
+// Uses an httptest server to fake the bornite /v1/models + /v1/chat/completions.
 package bench
 
 import (

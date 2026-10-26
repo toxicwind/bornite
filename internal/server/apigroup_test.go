@@ -324,7 +324,7 @@ func TestServer_APIHardware(t *testing.T) {
 		Capture: hw.HardwareCapture{
 			Scope:    hw.CaptureScopeInferenceHost,
 			Method:   hw.CaptureMethodDetected,
-			Detector: &hw.DetectorInfo{Name: "herd", Version: "246"},
+			Detector: &hw.DetectorInfo{Name: "bornite", Version: "246"},
 		},
 		Architecture:    hw.Architecture{Name: "x86_64"},
 		OperatingSystem: hw.OperatingSystem{Family: "linux"},

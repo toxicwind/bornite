@@ -42,7 +42,7 @@ func TestLoadingWriter_SSEHeadersAndInitialMessage(t *testing.T) {
 	if !strings.Contains(content, "━━━━━\n") {
 		t.Errorf("missing separator in streamed content: %q", content)
 	}
-	if !strings.Contains(content, "herd loading model: test-model\n") {
+	if !strings.Contains(content, "bornite loading model: test-model\n") {
 		t.Errorf("missing initial message in streamed content: %q", content)
 	}
 }

@@ -1,10 +1,10 @@
 #!/bin/sh
-# This script installs herd on Linux.
-# It detects the current operating system architecture and installs the appropriate version of herd.
+# This script installs bornite on Linux.
+# It detects the current operating system architecture and installs the appropriate version of bornite.
 
 set -eu
 
-HERD_DEFAULT_ADDRESS=${HERD_DEFAULT_ADDRESS:-"127.0.0.1:8080"}
+BORNITE_DEFAULT_ADDRESS=${BORNITE_DEFAULT_ADDRESS:-"127.0.0.1:8080"}
 
 red="$( (/usr/bin/tput bold || :; /usr/bin/tput setaf 1 || :) 2>&-)"
 plain="$( (/usr/bin/tput sgr0 || :) 2>&-)"
@@ -74,7 +74,7 @@ import urllib.request
 
 ASSET_NAME = "${ASSET_NAME}"
 
-with urllib.request.urlopen("https://api.github.com/repos/mostlygeek/herd/releases/latest") as resp:
+with urllib.request.urlopen("https://api.github.com/repos/mostlygeek/bornite/releases/latest") as resp:
     data = json.load(resp)
     for asset in data.get("assets", []):
         if ASSET_NAME in asset.get("name", ""):
@@ -85,7 +85,7 @@ with urllib.request.urlopen("https://api.github.com/repos/mostlygeek/herd/releas
         exit(1)
 
 print("Downloading:", url, file=sys.stderr)
-output_path = os.path.join("${TMPDIR}", "herd.tar.gz")
+output_path = os.path.join("${TMPDIR}", "bornite.tar.gz")
 urllib.request.urlretrieve(url, output_path)
 print(output_path)
 EOF
@@ -97,34 +97,34 @@ EOF
     fi
 
     status "Extracting to /usr/local/bin"
-    $SUDO tar -xzf "$TARFILE" -C /usr/local/bin herd
+    $SUDO tar -xzf "$TARFILE" -C /usr/local/bin bornite
 }
 download_binary
 
 configure_systemd() {
-    if ! id herd >/dev/null 2>&1; then
-        status "Creating herd user..."
-        $SUDO useradd -r -s /bin/false -U -m -d /usr/share/herd herd
+    if ! id bornite >/dev/null 2>&1; then
+        status "Creating bornite user..."
+        $SUDO useradd -r -s /bin/false -U -m -d /usr/share/bornite bornite
     fi
     if getent group render >/dev/null 2>&1; then
-        status "Adding herd user to render group..."
-        $SUDO usermod -a -G render herd
+        status "Adding bornite user to render group..."
+        $SUDO usermod -a -G render bornite
     fi
     if getent group video >/dev/null 2>&1; then
-        status "Adding herd user to video group..."
-        $SUDO usermod -a -G video herd
+        status "Adding bornite user to video group..."
+        $SUDO usermod -a -G video bornite
     fi
     if getent group docker >/dev/null 2>&1; then
-        status "Adding herd user to docker group..."
-        $SUDO usermod -a -G docker herd
+        status "Adding bornite user to docker group..."
+        $SUDO usermod -a -G docker bornite
     fi
 
-    status "Adding current user to herd group..."
-    $SUDO usermod -a -G herd "$(whoami)"
+    status "Adding current user to bornite group..."
+    $SUDO usermod -a -G bornite "$(whoami)"
 
-    if [ ! -f "/usr/share/herd/config.yaml" ]; then
+    if [ ! -f "/usr/share/bornite/config.yaml" ]; then
         status "Creating default config.yaml..."
-        cat <<EOF | $SUDO -u herd tee /usr/share/herd/config.yaml >/dev/null
+        cat <<EOF | $SUDO -u bornite tee /usr/share/bornite/config.yaml >/dev/null
 # default 15s likely to fail for default models due to downloading models
 healthCheckTimeout: 60
 
@@ -151,18 +151,18 @@ models:
 EOF
     fi
 
-    status "Creating herd systemd service..."
-    cat <<EOF | $SUDO tee /etc/systemd/system/herd.service >/dev/null
+    status "Creating bornite systemd service..."
+    cat <<EOF | $SUDO tee /etc/systemd/system/bornite.service >/dev/null
 [Unit]
-Description=herd
+Description=bornite
 After=network.target
 
 [Service]
-User=herd
-Group=herd
+User=bornite
+Group=bornite
 
 # set this to match your environment
-ExecStart=/usr/local/bin/herd --config /usr/share/herd/config.yaml --watch-config -listen ${HERD_DEFAULT_ADDRESS}
+ExecStart=/usr/local/bin/bornite --config /usr/share/bornite/config.yaml --watch-config -listen ${BORNITE_DEFAULT_ADDRESS}
 
 Restart=on-failure
 RestartSec=3
@@ -175,11 +175,11 @@ EOF
     SYSTEMCTL_RUNNING="$(systemctl is-system-running || true)"
     case $SYSTEMCTL_RUNNING in
         running|degraded)
-            status "Enabling and starting herd service..."
+            status "Enabling and starting bornite service..."
             $SUDO systemctl daemon-reload
-            $SUDO systemctl enable herd
+            $SUDO systemctl enable bornite
 
-            start_service() { $SUDO systemctl restart herd; }
+            start_service() { $SUDO systemctl restart bornite; }
             trap start_service EXIT
             ;;
         *)
@@ -196,8 +196,8 @@ if available systemctl; then
 fi
 
 install_success() {
-    status "The herd API is now available at http://${HERD_DEFAULT_ADDRESS}"
-    status 'Customize the config file at /usr/share/herd/config.yaml.'
+    status "The bornite API is now available at http://${BORNITE_DEFAULT_ADDRESS}"
+    status 'Customize the config file at /usr/share/bornite/config.yaml.'
     status 'Install complete.'
 }
 

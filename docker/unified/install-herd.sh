@@ -1,11 +1,11 @@
 #!/bin/bash
-# Install herd - download latest release binary from GitHub
-# Usage: ./install-herd.sh [version]
+# Install bornite - download latest release binary from GitHub
+# Usage: ./install-bornite.sh [version]
 #   version: release version number (e.g., "170") or "latest" (default)
 set -e
 
 VERSION="${1:-latest}"
-REPO="mostlygeek/herd"
+REPO="mostlygeek/bornite"
 
 mkdir -p /install/bin
 
@@ -28,7 +28,7 @@ VERSION="${VERSION#v}"
 
 # Resolve "latest" to actual version number
 if [ "$VERSION" = "latest" ]; then
-    echo "=== Resolving latest herd release ==="
+    echo "=== Resolving latest bornite release ==="
     VERSION=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
         | grep '"tag_name"' | head -1 | cut -d'"' -f4 | sed 's/^v//')
     if [ -z "$VERSION" ]; then
@@ -47,21 +47,21 @@ case "$ARCH" in
 esac
 
 # Download and extract
-URL="https://github.com/${REPO}/releases/download/v${VERSION}/herd_${VERSION}_linux_${ARCH}.tar.gz"
-echo "=== Downloading herd v${VERSION} ==="
+URL="https://github.com/${REPO}/releases/download/v${VERSION}/bornite_${VERSION}_linux_${ARCH}.tar.gz"
+echo "=== Downloading bornite v${VERSION} ==="
 echo "URL: $URL"
-curl -fSL -o /tmp/herd.tar.gz "$URL"
-tar -xzf /tmp/herd.tar.gz -C /install/bin/
-rm /tmp/herd.tar.gz
+curl -fSL -o /tmp/bornite.tar.gz "$URL"
+tar -xzf /tmp/bornite.tar.gz -C /install/bin/
+rm /tmp/bornite.tar.gz
 
 # Validate
-if [ ! -x "/install/bin/herd" ]; then
-    echo "FATAL: herd binary not found or not executable" >&2
+if [ ! -x "/install/bin/bornite" ]; then
+    echo "FATAL: bornite binary not found or not executable" >&2
     ls -la /install/bin/ >&2
     exit 1
 fi
 
-echo "$VERSION" > /install/herd-version
+echo "$VERSION" > /install/bornite-version
 
-echo "=== herd v${VERSION} installed ==="
-ls -la /install/bin/herd
+echo "=== bornite v${VERSION} installed ==="
+ls -la /install/bin/bornite

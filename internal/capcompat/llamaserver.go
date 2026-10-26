@@ -38,7 +38,7 @@ type propsResponse struct {
 	ChatTemplate string `json:"chat_template"`
 }
 
-// modalityForProp maps a llama-server modality key onto a herd input
+// modalityForProp maps a llama-server modality key onto a bornite input
 // modality. Text is always supported and is added unconditionally.
 //
 // All three keys are confirmed against a running server, which reports

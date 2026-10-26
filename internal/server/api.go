@@ -161,7 +161,7 @@ func (s *Server) handleListModels(w http.ResponseWriter, r *http.Request) {
 			ID:          id,
 			Object:      "model",
 			Created:     created,
-			OwnedBy:     "herd",
+			OwnedBy:     "bornite",
 			Name:        strings.TrimSpace(name),
 			Description: strings.TrimSpace(description),
 			Status:      map[string]any{"value": status},
@@ -183,7 +183,7 @@ func (s *Server) handleListModels(w http.ResponseWriter, r *http.Request) {
 		if len(llamaSwapMetadata) > 0 || rec.ContextLength > 0 {
 			rec.Meta = make(map[string]any)
 			if len(llamaSwapMetadata) > 0 {
-				rec.Meta["herd"] = llamaSwapMetadata
+				rec.Meta["bornite"] = llamaSwapMetadata
 			}
 			if rec.ContextLength > 0 {
 				rec.Meta["n_ctx"] = rec.ContextLength
@@ -440,9 +440,9 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 
 func handleRootRedirect(w http.ResponseWriter, r *http.Request) {
 	// The dashboard used to be embedded at /ui; it is now served separately
-	// (see range/ui/CONSOLIDATION.md). HERD_DASHBOARD_URL points at the real
+	// (see range/ui/CONSOLIDATION.md). BORNITE_DASHBOARD_URL points at the real
 	// dashboard origin; unset falls back to the legacy /ui path.
-	target := os.Getenv("HERD_DASHBOARD_URL")
+	target := os.Getenv("BORNITE_DASHBOARD_URL")
 	if target == "" {
 		target = "/ui"
 	}

@@ -1,10 +1,10 @@
 # flock architecture
 
-> **NOTE 2026-09-19.** The in-process Go router (`projects/herd/internal/flock`,
-> `astMatrix:` config key) was retired from the shipped herd binary 2026-09-17:
+> **NOTE 2026-09-19.** The in-process Go router (`projects/bornite/internal/flock`,
+> `astMatrix:` config key) was retired from the shipped bornite binary 2026-09-17:
 > the binary ignores `astMatrix:` with a warning and 404s on `/flock/status`,
 > `/flock/metrics`, `/astmatrix/*`. Live cloud routing is the `flock:`
-> delegation key in `config/herd.yaml` pointing at the `:8000` flock daemon
+> delegation key in `config/bornite.yaml` pointing at the `:8000` flock daemon
 > below. `internal/flock/providers.go` remains the tree's canonical provider
 > definitions, but it is not compiled into the shipped binary.
 
@@ -28,8 +28,8 @@
 | `research/` | Go research | Inkling API research |
 | `benchmarks/` | moonbox trees | Benchmark snapshots + live runs |
 
-flock never serves local models. Local inference is herd/herd's job.
-flock is the whole API/routing surface. The Go router package `projects/herd/internal/flock`
+flock never serves local models. Local inference is bornite/bornite's job.
+flock is the whole API/routing surface. The Go router package `projects/bornite/internal/flock`
 **owns the canonical provider definitions** (see `providers.go` — nvidia →
 `https://integrate.api.nvidia.com/v1`); the flock proxy daemon (:8000) is the local
 enforcement point the routers actually dial.

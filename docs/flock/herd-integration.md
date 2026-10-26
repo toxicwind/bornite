@@ -1,18 +1,18 @@
-# flock × herd integration
+# flock × bornite integration
 
 ## Who dials flock
 
 | Caller | How |
 |---|---|
 | estate-scripts-router-ts `nvidia` provider | `http://127.0.0.1:8000` (OpenAI-compatible) |
-| flock Go router (`projects/herd/internal/flock`) | provider definitions point at upstream `integrate.api.nvidia.com/v1`; the flock proxy daemon is the optional local enforcement layer |
+| flock Go router (`projects/bornite/internal/flock`) | provider definitions point at upstream `integrate.api.nvidia.com/v1`; the flock proxy daemon is the optional local enforcement layer |
 
 ## Ownership
 
 - **flock owns provider definitions.** Model lists, base URLs, and strategy
-  live in `projects/herd/internal/flock/`.
+  live in `projects/bornite/internal/flock/`.
 - **The flock proxy daemon owns local enforcement.** Rate limiting, history, dashboard, key
-  handling for the NIM surface on :8000. It does not define herd's provider catalog — the
+  handling for the NIM surface on :8000. It does not define bornite's provider catalog — the
   flock Go router package does.
 
 ## Naming

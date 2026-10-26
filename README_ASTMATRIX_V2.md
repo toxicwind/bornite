@@ -2,7 +2,7 @@
 
 ## Overview
 
-AstMatrix is a first-class routing module for herd that provides intelligent dispatch to cloud LLM providers with production-grade reliability features.
+AstMatrix is a first-class routing module for bornite that provides intelligent dispatch to cloud LLM providers with production-grade reliability features.
 
 ## Architecture (Modular)
 
@@ -34,7 +34,7 @@ AstMatrix is a first-class routing module for herd that provides intelligent dis
 
 ## Built-in Providers (13)
 
-- herd (local)
+- bornite (local)
 - openrouter, nvidia, groq, together, cerebras, fireworks, hyperbolic
 - github (models.inference.ai), mistral, openai, perplexity, siliconflow
 
@@ -81,7 +81,7 @@ Upstream `server.go` already dispatches to `s.cloud.ServeHTTP(w, r)` when `s.clo
 ## Build
 
 ```bash
-cd herd
+cd bornite
 go build ./...
 ```
 

@@ -3,7 +3,7 @@ package agele
 import "github.com/toxicwind/bornite/internal/config"
 
 // securityOrZero resolves Config.Security, which is a POINTER in bornite
-// (herd's shape) but a value in agele. A nil pointer means "no security
+// (bornite's shape) but a value in agele. A nil pointer means "no security
 // block in the config", which is the zero value.
 func securityOrZero(cfg config.Config) config.SecurityConfig {
 	if cfg.Security == nil {

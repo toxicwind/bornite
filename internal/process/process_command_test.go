@@ -174,8 +174,8 @@ func TestProcessCommand_StartStop(t *testing.T) {
 	if rr.Code != http.StatusServiceUnavailable {
 		t.Errorf("before start: expected 503, got %d", rr.Code)
 	}
-	if body := rr.Body.String(); !strings.Contains(body, `"src":"herd"`) || !strings.Contains(body, "process is not ready") {
-		t.Errorf("before start: expected herd error envelope, got %q", body)
+	if body := rr.Body.String(); !strings.Contains(body, `"src":"bornite"`) || !strings.Contains(body, "process is not ready") {
+		t.Errorf("before start: expected bornite error envelope, got %q", body)
 	}
 
 	runErr := runAsync(t, p)
@@ -213,8 +213,8 @@ func TestProcessCommand_StartStop(t *testing.T) {
 	if rr.Code != http.StatusServiceUnavailable {
 		t.Errorf("after stop: expected 503, got %d", rr.Code)
 	}
-	if body := rr.Body.String(); !strings.Contains(body, `"src":"herd"`) || !strings.Contains(body, "process is not ready") {
-		t.Errorf("after stop: expected herd error envelope, got %q", body)
+	if body := rr.Body.String(); !strings.Contains(body, `"src":"bornite"`) || !strings.Contains(body, "process is not ready") {
+		t.Errorf("after stop: expected bornite error envelope, got %q", body)
 	}
 }
 

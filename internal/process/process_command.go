@@ -536,7 +536,7 @@ func (p *ProcessCommand) doStart(startCtx context.Context, healthCheckTimeout ti
 			// Expected: we force-terminated the process. A forced kill exits
 			// the child with a non-zero code (e.g. taskkill /f on Windows
 			// yields exit status 1), so this is not an error.
-			p.proxyLogger.Debugf("<%s> process stopped by herd: %v", p.id, waitErr)
+			p.proxyLogger.Debugf("<%s> process stopped by bornite: %v", p.id, waitErr)
 		default:
 			if exitErr, ok := waitErr.(*exec.ExitError); ok {
 				p.proxyLogger.Debugf("<%s> process exited: code=%d, err=%v", p.id, exitErr.ExitCode(), waitErr)

@@ -1,30 +1,30 @@
-# herd Helm chart
+# bornite Helm chart
 
-Installs the herd head-end (router + lifecycle manager) into a
+Installs the bornite head-end (router + lifecycle manager) into a
 namespace, with the ServiceAccount and RBAC it needs, a ConfigMap holding
 `config.yaml`, a Service, and optional Ingress / Gateway API exposure.
 Because the head-end runs `kubeswap` as its `cmd`/`cmdStop` for every
 model, the whole inference fleet — backend pods, their PVCs, teardown —
 stays inside the same namespace the chart manages.
 
-The head-end image must ship `/usr/local/bin/herd` and
-`/usr/local/bin/kubeswap`. The unified herd images do, and also
+The head-end image must ship `/usr/local/bin/bornite` and
+`/usr/local/bin/kubeswap`. The unified bornite images do, and also
 ship every backend server (`llama-server`, `sd-server`,
 `whisper-server`, `audiocpp_server`), so one image covers the head-end
 and all backend pods.
 
 ## Install
 
-From the published OCI registry (one chart version per herd
+From the published OCI registry (one chart version per bornite
 release):
 
 ```bash
-helm install herd oci://ghcr.io/mostlygeek/charts/herd \
-  -n herd --create-namespace \
+helm install bornite oci://ghcr.io/mostlygeek/charts/bornite \
+  -n bornite --create-namespace \
   --version 256.0.0    # the chart version for release v256; omit for latest
 ```
 
-Versioning follows the herd release convention: tag `vNNN` publishes
+Versioning follows the bornite release convention: tag `vNNN` publishes
 chart version `NNN.0.0` with appVersion `NNN`. The published chart ships
 `image.tag` unset, so its default image is derived from the app version
 (`unified-vulkan-<appVersion>`) rather than codified into the tag string.
@@ -45,8 +45,8 @@ For development, install from a checkout instead (the chart lives in
 `cmd/kubeswap/chart/`, with the floating image tag by default):
 
 ```bash
-helm install herd ./cmd/kubeswap/chart \
-  -n herd --create-namespace
+helm install bornite ./cmd/kubeswap/chart \
+  -n bornite --create-namespace
 ```
 
 The chart never renders a Namespace object — create the release
@@ -60,19 +60,19 @@ per-pod emptyDir — no PVC required. For real use, override
 "Model cache PVC" below).
 
 ```bash
-helm install herd cmd/kubeswap/chart -n herd --create-namespace \
+helm install bornite cmd/kubeswap/chart -n bornite --create-namespace \
   --set-file config.inline=/path/to/your-config.yaml
 ```
 
 `config.inline` is processed as a Go template, so `{{ .Release.Namespace }}`
 works inside model commands (it is how the default config keeps
-`--namespace` correct). herd's own `${PORT}` macro is unaffected.
+`--namespace` correct). bornite's own `${PORT}` macro is unaffected.
 
 ## Values
 
 | key | default | meaning |
 | --- | --- | --- |
-| `image.repository` | `ghcr.io/mostlygeek/herd` | head-end image |
+| `image.repository` | `ghcr.io/mostlygeek/bornite` | head-end image |
 | `image.tag` | `unified-vulkan` (dev); published release charts ship it unset and derive `unified-vulkan-<appVersion>` | `unified-cuda13` / `unified-cuda` for NVIDIA |
 | `image.pullPolicy` | `IfNotPresent` | |
 | `imagePullSecrets` | `[]` | list of secret names |
@@ -98,7 +98,7 @@ works inside model commands (it is how the default config keeps
 | `ingress.enabled` | `false` | networking.k8s.io/v1 Ingress |
 | `ingress.className` | `""` | |
 | `ingress.annotations` | `{}` | |
-| `ingress.hosts` | `herd.local` | list of `{host, paths: [{path, pathType}]}` |
+| `ingress.hosts` | `bornite.local` | list of `{host, paths: [{path, pathType}]}` |
 | `ingress.tls` | `[]` | standard ingress TLS blocks |
 | `gateway.enabled` | `false` | Gateway API; with `name` and `parentRefs` both empty, rendering fails |
 | `gateway.gateway.name` | `""` | set to have the chart create a Gateway |
@@ -132,7 +132,7 @@ extraResources:
   - apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: herd-models
+      name: bornite-models
     spec:
       accessModes: [ReadWriteMany]
       storageClassName: longhorn
@@ -162,12 +162,12 @@ models:
       --listen 127.0.0.1:${PORT}
       --model krea2-turbo
       --namespace {{ .Release.Namespace }}
-      --image ghcr.io/mostlygeek/herd:unified-vulkan
+      --image ghcr.io/mostlygeek/bornite:unified-vulkan
       --command sd-server
       --health-path /v1/models
       --gpu amd.com/gpu=1
       --node-selector feature.node.kubernetes.io/amd-gpu=true
-      --volume pvc:herd-models:/models:ro
+      --volume pvc:bornite-models:/models:ro
       --
       --diffusion-model /models/krea-2-turbo-Q4_K_M.gguf
       --llm /models/Qwen3VL-4B-Instruct-Q4_K_M.gguf
@@ -184,7 +184,7 @@ models:
 For fleets, `config.models` replaces writing the `kubeswap serve`
 boilerplate per model: the chart generates each model's `proxy`,
 `cmd` (the whole `kubeswap serve ... -- <args>` line) and `cmdStop`.
-`config.top` carries everything else (scalars, herd `macros`;
+`config.top` carries everything else (scalars, bornite `macros`;
 routing comes from `config.matrix` instead, see below) and
 `config.defaults` holds what most models share. A key on a
 model entry overrides the matching default — an empty list clears it
@@ -197,7 +197,7 @@ and share one Deployment), `image`,
 `kubeswap serve` flags before `--`, e.g. `"--node-selector k=v"`,
 `"--request cpu=4"`), `startupTimeout`, `healthPath`, `livenessPath`,
 `checkPath`, `args` (backend command line after `--`), `proxy`,
-`cmdStop`. Every other key renders verbatim as a herd model field
+`cmdStop`. Every other key renders verbatim as a bornite model field
 (`name`, `ttl`, `capabilities`, `macros`, `filters`, `aliases`, ...).
 
 `args` is rendered verbatim and is **not** Go-templated (unlike
@@ -209,14 +209,14 @@ rendered config is templated.
 config:
   top:                        # templated like config.inline
     healthCheckTimeout: 600
-    macros:                   # herd macros keep the args DRY
+    macros:                   # bornite macros keep the args DRY
       server_base: --port 8080 -ngl 99
       sd_base: --listen-ip 0.0.0.0 --listen-port 8080 --diffusion-fa --offload-to-cpu
   defaults:
-    image: ghcr.io/mostlygeek/herd:unified-vulkan
+    image: ghcr.io/mostlygeek/bornite:unified-vulkan
     command: llama-server
     gpu: [amd.com/gpu=1]
-    volumes: [pvc:herd-models:/models:ro]
+    volumes: [pvc:bornite-models:/models:ro]
     extraKubeArgs: ["--node-selector feature.node.kubernetes.io/amd-gpu=true"]
     ttl: 1800
   models:
@@ -233,15 +233,15 @@ config:
       args: --host 0.0.0.0 --port 8080 --model /models/whisper.bin
 ```
 
-`args` still composes with herd's `${...}` macros from
+`args` still composes with bornite's `${...}` macros from
 `top.macros`. One limit: model maps render with sorted keys and
-herd expands macros in reverse declaration order, so a model
+bornite expands macros in reverse declaration order, so a model
 macro must not reference another model macro of the same model (global
 macros and literals are fine).
 
 ### Matrix router builder
 
-`config.matrix` generates the herd `routing` section from the
+`config.matrix` generates the bornite `routing` section from the
 `config.models` roster instead of writing matrix DSL by hand. It
 replaces a `routing:` block under `config.top` (defining both fails
 rendering).
@@ -319,13 +319,13 @@ ingress:
   enabled: true
   className: traefik
   hosts:
-    - host: herd.example.com
+    - host: bornite.example.com
       paths:
         - path: /
           pathType: Prefix
   tls:
-    - hosts: [herd.example.com]
-      secretName: herd-tls
+    - hosts: [bornite.example.com]
+      secretName: bornite-tls
 ```
 
 ### LoadBalancer service
@@ -348,16 +348,16 @@ gateway:
       - name: http
         protocol: HTTP
         port: 80
-        hostname: herd.example.com # singular: a Gateway listener field
+        hostname: bornite.example.com # singular: a Gateway listener field
   route:
-    hostnames: ["herd.example.com"] # plural: the HTTPRoute field
+    hostnames: ["bornite.example.com"] # plural: the HTTPRoute field
 ```
 
 ### Existing ConfigMap
 
 ```yaml
 config:
-  existing: my-herd-config   # must contain a config.yaml key
+  existing: my-bornite-config   # must contain a config.yaml key
 ```
 
 ## Notes
@@ -379,4 +379,4 @@ config:
   `extraResources`, but **not** backend workloads created at runtime —
   stop the head-end first (or run
   `kubeswap gc --namespace <ns> --config <path>` /
-  `kubectl -n <ns> delete deploy -l herd.io/managed-by=herd`).
+  `kubectl -n <ns> delete deploy -l bornite.io/managed-by=bornite`).

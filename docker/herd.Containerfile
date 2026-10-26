@@ -3,7 +3,7 @@ ARG BASE_TAG=server-cuda
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
 ARG LS_VER=170
-ARG LS_REPO=mostlygeek/herd
+ARG LS_REPO=mostlygeek/bornite
 
 # Set default UID/GID arguments
 ARG UID=10001
@@ -39,11 +39,11 @@ RUN \
         aarch64) ARCH=arm64 ;; \
         *) echo "unsupported arch: $(uname -m)" >&2; exit 1 ;; \
     esac; \
-    curl --fail -LO "https://github.com/${LS_REPO}/releases/download/v${LS_VER}/herd_${LS_VER}_linux_${ARCH}.tar.gz" && \
-    tar -zxf "herd_${LS_VER}_linux_${ARCH}.tar.gz" && \
-    rm "herd_${LS_VER}_linux_${ARCH}.tar.gz"
+    curl --fail -LO "https://github.com/${LS_REPO}/releases/download/v${LS_VER}/bornite_${LS_VER}_linux_${ARCH}.tar.gz" && \
+    tar -zxf "bornite_${LS_VER}_linux_${ARCH}.tar.gz" && \
+    rm "bornite_${LS_VER}_linux_${ARCH}.tar.gz"
 
 COPY --chown=$UID:$GID docs/config.example.yaml /app/config.yaml
 
 HEALTHCHECK CMD curl -f http://localhost:8080/ || exit 1
-ENTRYPOINT [ "/app/herd", "-config", "/app/config.yaml", "-watch-config"]
+ENTRYPOINT [ "/app/bornite", "-config", "/app/config.yaml", "-watch-config"]

@@ -1,7 +1,7 @@
 # Hardware detection
 
 The `hw` package creates a versioned `HardwareSnapshot` for the machine that
-runs herd. The snapshot describes hardware visible to the herd
+runs bornite. The snapshot describes hardware visible to the bornite
 process. It does not try to describe hardware hidden by a container, virtual
 machine, device filter, or operating-system permission.
 
@@ -11,7 +11,7 @@ The public entry point is:
 snapshot, err := hw.Detect(ctx, version)
 ```
 
-herd calls `Detect` once during startup. The result is kept unchanged for
+bornite calls `Detect` once during startup. The result is kept unchanged for
 the life of the process, including configuration reloads.
 
 ## Design goals
@@ -56,7 +56,7 @@ or produces an empty accelerator list.
 ### Inference-host scope
 
 `capture.scope` is always `inference_host`. The snapshot must describe the
-machine running herd, not a browser, API client, or monitoring server.
+machine running bornite, not a browser, API client, or monitoring server.
 
 ### Missing, unknown, and other
 

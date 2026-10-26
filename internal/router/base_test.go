@@ -610,7 +610,7 @@ func TestBaseRouter_ConcurrencyLimitRejectsBeforeLoadingStream(t *testing.T) {
 	if got := w.Header().Get("Content-Type"); got != "application/json" {
 		t.Fatalf("Content-Type=%q want application/json", got)
 	}
-	if strings.Contains(w.Body.String(), "herd loading model") {
+	if strings.Contains(w.Body.String(), "bornite loading model") {
 		t.Fatalf("429 body contains loading stream: %q", w.Body.String())
 	}
 	// OpenAI clients read body["error"]["message"], so "error" must decode as
@@ -650,7 +650,7 @@ func TestBaseRouter_DispatchErrorFramedIntoLoadingStream(t *testing.T) {
 
 	body := w.Body.String()
 	// The loading text is streamed a few characters per frame, so reassemble it.
-	if content := extractStreamedContent(body); !strings.Contains(content, "herd loading model") {
+	if content := extractStreamedContent(body); !strings.Contains(content, "bornite loading model") {
 		t.Fatalf("loading stream did not start, so this is not the path under test: %q", content)
 	}
 	for _, line := range strings.Split(strings.TrimRight(body, "\n"), "\n") {

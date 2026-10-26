@@ -11,7 +11,7 @@ updated: 2026-08-25
 
 ## Requiring a key
 
-By default herd is unauthenticated. Add `apiKeys` and every request needs
+By default bornite is unauthenticated. Add `apiKeys` and every request needs
 one:
 
 ```yaml
@@ -31,11 +31,11 @@ $ printf "sk-%s\n" "$(head -c 48 /dev/urandom | base64)"
 Multiple keys are allowed, which is how you rotate without downtime: add the
 new key, move clients over, remove the old one.
 
-All keys are equivalent. herd has no per-key rate limiting, user
+All keys are equivalent. bornite has no per-key rate limiting, user
 accounts, roles, or per-key permissions. Put a reverse proxy or API gateway in
-front of herd when you need those controls.
+front of bornite when you need those controls.
 
-**`apiKeys` is not a substitute for a firewall.** herd starts processes
+**`apiKeys` is not a substitute for a firewall.** bornite starts processes
 on your machine. Do not expose it to the internet on the strength of a bearer
 token alone.
 
@@ -45,8 +45,8 @@ Use env macros so the config itself is safe to commit:
 
 ```yaml
 apiKeys:
-  - "${env.HERD_KEY}"
-  - "${env.HERD_KEY_ROTATE}"
+  - "${env.BORNITE_KEY}"
+  - "${env.BORNITE_KEY_ROTATE}"
 ```
 
 `${env.VAR}` is substituted before anything else. **If the variable is not set,
@@ -75,8 +75,8 @@ models:
 `Authorization: Bearer <key>` and `x-api-key: <key>`. Leave it blank and no key
 is added. It accepts a macro, so use `${env.*}`.
 
-This is the key herd presents *to* the peer. It is unrelated to the
-`apiKeys` clients present *to* herd.
+This is the key bornite presents *to* the peer. It is unrelated to the
+`apiKeys` clients present *to* bornite.
 
 ## What ends up in your config file
 

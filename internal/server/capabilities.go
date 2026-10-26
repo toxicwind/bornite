@@ -52,7 +52,7 @@ func (s *Server) refreshCapabilities(modelID string, mc config.ModelConfig) {
 	before := s.resolveCapabilities(s.shutdownCtx, modelID, mc)
 
 	if err := s.capcompat.Refresh(s.shutdownCtx, key, client, name); err != nil {
-		// Debug, not warn. herd also fronts image, speech and
+		// Debug, not warn. bornite also fronts image, speech and
 		// transcription servers with no capability surface, and a model that
 		// stopped again mid-probe is normal. Neither is worth a warning on
 		// every model start.

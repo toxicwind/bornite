@@ -145,7 +145,7 @@ func (s *Service) Refresh(ctx context.Context, key string, c *Client, modelName 
 		if errors.Is(err, ErrUnsupportedUpstream) {
 			// Not every upstream has capabilities to report. Drop anything
 			// stored under this key first: a server can be replaced by one
-			// herd does not recognise without cmd, proxy or
+			// bornite does not recognise without cmd, proxy or
 			// useModelName changing, and the key would still be the same.
 			// The memo would hide the old row for the life of the process,
 			// but a restart starts with an empty memo and would serve it.

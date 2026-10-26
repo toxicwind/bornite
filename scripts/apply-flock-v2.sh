@@ -2,18 +2,18 @@
 set -euo pipefail
 
 # =============================================================================
-# FLOCK V2 — PRODUCTION-GRADE CLOUD ROUTER FOR HERD
-# Apply this patch set to upstream herd
+# FLOCK V2 — PRODUCTION-GRADE CLOUD ROUTER FOR BORNITE
+# Apply this patch set to upstream bornite
 # =============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_REPO="${1:-}"
 
 if [ -z "$TARGET_REPO" ]; then
-    echo "Usage: $0 <path-to-herd-repo>"
+    echo "Usage: $0 <path-to-bornite-repo>"
     echo ""
     echo "Example:"
-    echo "  $0 ~/projects/herd"
+    echo "  $0 ~/projects/bornite"
     exit 1
 fi
 

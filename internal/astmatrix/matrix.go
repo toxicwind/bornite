@@ -290,7 +290,7 @@ func (m *Matrix) circuitOkLocked(p string) bool {
 
 // firstModelFor returns the default model for a provider.
 func firstModelFor(p string) string {
-	if p == "herd" {
+	if p == "bornite" {
 		return "local-quality"
 	}
 	providers := defaultProviders()

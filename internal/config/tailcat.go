@@ -12,7 +12,7 @@ const TailcatEphemeralKey = "ephemeral"
 
 // TailcatAllowAll is the wildcard that allows any tailcat client.
 // Ported from the agele tree during the bornite union: agele's
-// validator accepted it, herd's did not.
+// validator accepted it, bornite's did not.
 const TailcatAllowAll = "*"
 
 // TailcatConfig configures the private Tailcat listener and its HTTP policy.

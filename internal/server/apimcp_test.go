@@ -407,8 +407,8 @@ func TestServer_APIMCP_Discover(t *testing.T) {
 	if result.Instructions == "" {
 		t.Error("instructions is empty")
 	}
-	if result.Meta.ServerInfo.Name != "herd" {
-		t.Errorf("serverInfo.name = %q, want herd", result.Meta.ServerInfo.Name)
+	if result.Meta.ServerInfo.Name != "bornite" {
+		t.Errorf("serverInfo.name = %q, want bornite", result.Meta.ServerInfo.Name)
 	}
 	if result.CacheScope != "public" {
 		t.Errorf("cacheScope = %q, want public", result.CacheScope)

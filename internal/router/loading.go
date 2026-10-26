@@ -89,7 +89,7 @@ func newLoadingWriter(logger *logmon.Monitor, modelName string, w http.ResponseW
 	// (Zed's untagged ResponseStreamResult) can't match.
 	s.sendRoleChunk()
 	s.sendLine("━━━━━")
-	s.sendLine(fmt.Sprintf("herd loading model: %s", modelName))
+	s.sendLine(fmt.Sprintf("bornite loading model: %s", modelName))
 	return s
 }
 

@@ -265,8 +265,8 @@ func TestCapcompat_DetectVLLMCapture(t *testing.T) {
 		assert.Equal(t, 0, up.hits["/props"], "vllm has no /props to read")
 	})
 
-	t.Run("herd model id that vllm does not know", func(t *testing.T) {
-		// A model herd calls something else, with no useModelName set.
+	t.Run("bornite model id that vllm does not know", func(t *testing.T) {
+		// A model bornite calls something else, with no useModelName set.
 		// parent is null, so this entry is still the base model to read.
 		info, err := Detect(context.Background(), up.client(t), "my-local-name")
 		require.NoError(t, err)

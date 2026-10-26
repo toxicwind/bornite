@@ -62,7 +62,7 @@ func (o *Orchestrator) RunSeed() error {
 }
 
 // RunDiscover fetches /v1/models and writes the discovered IDs into state.
-// Also ensures the herd provider is registered in models.yml.
+// Also ensures the bornite provider is registered in models.yml.
 func (o *Orchestrator) RunDiscover(ctx context.Context) error {
 	ids, err := Discover(ctx, o.State.Context.BaseURL)
 	if err != nil {
