@@ -38,7 +38,7 @@ func LiveCatalogPath() string {
 	if p := os.Getenv("estate-scripts_LIVE_CATALOG"); p != "" {
 		return p
 	}
-	return "/home/toxic/estate/.state/provider-catalog.live.json"
+	return "/home/toxic/pens/estate/var/state/provider-catalog.live.json"
 }
 
 type liveCatalogProvider struct {

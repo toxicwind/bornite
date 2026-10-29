@@ -75,7 +75,7 @@ models:
 // catches a silently-dropped section in production config.
 func TestRealEstateConfigsLoad(t *testing.T) {
 	for _, p := range []string{
-		"/home/toxic/estate/config/bornite.yaml",
+		"/home/toxic/pens/estate/config/bornite.yaml",
 		"/home/toxic/kimi-auto/bornite.d/kimi-auto.yaml",
 	} {
 		f, err := os.Open(p)

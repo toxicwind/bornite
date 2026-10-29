@@ -2,11 +2,11 @@
 # bornite-selfheal.sh — one-shot bornite health check + safe auto-repair.
 #
 # Run this before asking "is bornite broken?":
-#   /home/toxic/estate/ranch/mesh/router/bornite/bornite-selfheal.sh
+#   /home/toxic/pens/estate/ranch/mesh/router/bornite/bornite-selfheal.sh
 #
 # What it does:
 #   1. Verifies the engines/ symlink target is live (3 engine binaries);
-#      re-points it to the canonical /home/toxic/estate/engines/bornite if stale.
+#      re-points it to the canonical /home/toxic/pens/estate/engines/bornite if stale.
 #   2. Verifies the canonical config parses as YAML (values never printed).
 #   3. Verifies the repo config.yaml resolves to the canonical config.
 #   4. Runs `go build ./...` on the bornite module.
@@ -21,7 +21,7 @@
 set -uo pipefail
 
 BORNITE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOV="/home/toxic/estate"
+SOV="/home/toxic/pens/estate"
 CANON_CONFIG="$SOV/config/bornite.yaml"
 ENGINES_LINK="$BORNITE_DIR/engines"
 ENGINES_CANON="$SOV/engines/bornite"
