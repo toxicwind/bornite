@@ -11,8 +11,8 @@ import sys
 import yaml
 import argparse
 
-DEFAULT_SERVER_BIN = "/home/toxic/estate/engines/bornite/beellama.cpp/build-cuda86/bin/llama-server"
-DEFAULT_CONFIG_PATH = os.path.expanduser("/home/toxic/estate/config/bornite.yaml")
+DEFAULT_SERVER_BIN = "/home/toxic/pens/estate/engines/bornite/beellama.cpp/build-cuda86/bin/llama-server"
+DEFAULT_CONFIG_PATH = os.path.expanduser("/home/toxic/pens/estate/config/bornite.yaml")
 
 def extract_flags(binary_path):
     if not os.path.exists(binary_path):

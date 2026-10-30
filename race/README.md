@@ -20,9 +20,9 @@ client -> :25100 (bornite) -> peer bornite-race -> :25161 (this service)
 ```
 
 - **Service:** Go, `main.go` → binary `bornite-race`, supervised by pitchfork
-  (`estate/bornite-race`), config `/home/toxic/estate/config/bornite-race.json`,
+  (`estate/bornite-race`), config `/home/toxic/pens/estate/config/bornite-race.json`,
   port `25161` (`BORNITE_RACE_PORT` in `ports.env`).
-- **Bornite wiring:** peer `bornite-race` in `/home/toxic/estate/config/bornite.yaml`
+- **Bornite wiring:** peer `bornite-race` in `/home/toxic/pens/estate/config/bornite.yaml`
   (`proxy: http://127.0.0.1:25161`, `models: [bornite/race]`). Bornite's
   `--watch-config` picks it up without restart; it appears in `/v1/models`
   as `bornite-race/bornite/race` (house peer-qualified convention).
@@ -65,7 +65,7 @@ client -> :25100 (bornite) -> peer bornite-race -> :25161 (this service)
 curl -s http://127.0.0.1:25161/health | python3 -m json.tool
 
 # supervised lifecycle
-/home/toxic/estate/stack/pf.sh start|stop estate/bornite-race
+/home/toxic/pens/estate/stack/pf.sh start|stop estate/bornite-race
 
 # model visible through the router?
 curl -s http://127.0.0.1:25100/v1/models | python3 -c \
@@ -94,7 +94,7 @@ shaped the config:
 | ---- | ---- |
 | `main.go`, `main_test.go`, `go.mod` | Service source (also mirrored in `~/workspace/audit-fix/race-port/bornite-race/`) |
 | `bornite-race` | Built binary (rebuilt on yote; `go build -o bornite-race .`) |
-| `/home/toxic/estate/config/bornite-race.json` | Contestants, timeouts, breaker, log path |
-| `/home/toxic/estate/config/bornite.yaml` | `bornite-race` peer block |
-| `/home/toxic/estate/pitchfork.toml` | `[daemons.bornite-race]` supervision |
-| `/home/toxic/estate/config/ports.env` | `BORNITE_RACE_PORT=25161` |
+| `/home/toxic/pens/estate/config/bornite-race.json` | Contestants, timeouts, breaker, log path |
+| `/home/toxic/pens/estate/config/bornite.yaml` | `bornite-race` peer block |
+| `/home/toxic/pens/estate/pitchfork.toml` | `[daemons.bornite-race]` supervision |
+| `/home/toxic/pens/estate/config/ports.env` | `BORNITE_RACE_PORT=25161` |

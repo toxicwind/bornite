@@ -127,7 +127,7 @@ graph TD
 ```bash
 # Build with Zen 4 AVX-512 and maximal Go compiler flags
 go build -v -ldflags="-s -w" -o bornite ./cmd
-./bornite --config /home/toxic/estate/config/bornite.yaml
+./bornite --config /home/toxic/pens/estate/config/bornite.yaml
 ```
 The main build entry is `scripts/mise-build.sh` — it submits the canonical
 build+test (`go build ./... && go test -short -count=1 ./internal/...`, matching

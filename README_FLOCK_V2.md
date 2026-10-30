@@ -63,7 +63,7 @@ flock is a first-class routing module for bornite that provides intelligent disp
 
 The live configuration is the **`flock:` delegation key** (see the retired
 `astMatrix:` block below for what NOT to use). From the live
-`/home/toxic/estate/config/bornite.yaml`:
+`/home/toxic/pens/estate/config/bornite.yaml`:
 
 ```yaml
 # RETIRED 2026-09-17: astMatrix in-process router replaced by Flock delegation.
