@@ -73,3 +73,9 @@ Start up bornite and visit http://localhost:8080
 ```bash
 bornite -config config.yaml -listen localhost:8080
 ```
+## Historical
+
+Older audits and merge records live in [docs/history/](history/):
+`README_FLOCK_V2.md` (retired in-process router), `README_ASTMATRIX_V2.md`,
+`MODEL_INVENTORY.md` (2026-07/09 model audit, partially stale — see its
+CORRECTIONS header), `MERGE-DECISIONS.md`, `model-profiles.md`.
